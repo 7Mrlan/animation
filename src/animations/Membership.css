@@ -168,7 +168,7 @@
     scale: 1.1;
   }
 }
-@media (max-width: 600px) {
+@media (hover: none), (max-width: 600px) {
   .duo-word {
     font-size: 12px;
   }
@@ -193,4 +193,10 @@
   height: 100%;
   margin: 0;
   border-radius: inherit;
+}
+
+@media (hover: none), (max-width: 600px) {
+  .gemini-star {
+    filter: none;
+  }
 }

@@ -4,6 +4,7 @@ import { AnimationCard } from './components/AnimationCard'
 import { SourceDialog } from './components/SourceDialog'
 import { Icon } from './components/Icon'
 import { useReducedMotion, useReveal } from './hooks/useMotionActivity'
+import { preloadDuoAnimation } from './lib/duo-preload'
 
 const filters = ['全部作品', '指针交互', 'CSS 循环', '时间轴', 'Lottie'] as const
 export default function App() {
@@ -35,6 +36,19 @@ export default function App() {
   const reduced = useReducedMotion()
   const noteReveal = useReveal<HTMLElement>()
   const footerReveal = useReveal<HTMLElement>()
+  // Duo 的 Lottie runtime 较大，首屏空闲时预热，避免滚到 Duo 时才解析造成长任务。
+  useEffect(() => {
+    if (reduced) return
+    const warm = () => preloadDuoAnimation()
+    const idle =
+      typeof window.requestIdleCallback === 'function'
+        ? window.requestIdleCallback(warm, { timeout: 1500 })
+        : window.setTimeout(warm, 600)
+    return () => {
+      if (typeof window.cancelIdleCallback === 'function') window.cancelIdleCallback(idle)
+      else clearTimeout(idle)
+    }
+  }, [reduced])
   const visible = studies.filter((study) => filter === '全部作品' || study.kind === filter)
   return (
     <>

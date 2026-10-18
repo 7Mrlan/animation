@@ -360,6 +360,7 @@ h1 > span:not(.title-star) {
   border-radius: 15px;
   overflow: hidden;
   isolation: isolate;
+  contain: paint;
   background: var(--scene-tint);
   box-shadow: inset 0 0 0 1px #293d3105;
 }
@@ -432,7 +433,6 @@ h1 > span:not(.title-star) {
   padding: 4px 7px;
   border-radius: 5px;
   background: #ffffff50;
-  backdrop-filter: blur(8px);
 }
 .stage-tools {
   display: flex;
@@ -461,7 +461,6 @@ h1 > span:not(.title-star) {
   height: 29px;
   border: 1px solid #ffffffa6;
   background: #ffffff85;
-  backdrop-filter: blur(12px);
   border-radius: 8px;
   color: #63776b;
   box-shadow: 0 2px 4px #294b3410;
@@ -641,7 +640,18 @@ h1 > span:not(.title-star) {
 }
 .source-dialog::backdrop {
   background: #1c282359;
-  backdrop-filter: blur(6px);
+}
+/* 只在平板/桌面使用毛玻璃；手机端保留不透明背景，避免滚动时反复采样。 */
+@media (hover: hover) and (pointer: fine) {
+  .stage-kind {
+    backdrop-filter: blur(8px);
+  }
+  .icon-button {
+    backdrop-filter: blur(12px);
+  }
+  .source-dialog::backdrop {
+    backdrop-filter: blur(6px);
+  }
 }
 .source-heading {
   display: flex;
@@ -883,6 +893,85 @@ h1 > span:not(.title-star) {
   .source-dialog pre {
     padding: 12px;
     font-size: 10px;
+  }
+}
+/* 手机端：去掉 backdrop-filter、大范围 filter 和 scale 显现等昂贵绘制，
+   同时放大触摸目标。桌面端保留原有质感与动效。 */
+@media (hover: none), (max-width: 600px) {
+  body {
+    background: #f6f7f9;
+  }
+  .animation-card {
+    translate: 0 18px;
+    scale: 1;
+    box-shadow:
+      0 1px 2px #23332a0a,
+      0 10px 22px -18px #23332a24;
+    transition:
+      opacity 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+      translate 0.46s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .animation-card:hover {
+    transform: none;
+    box-shadow:
+      0 1px 2px #23332a0a,
+      0 10px 22px -18px #23332a24;
+  }
+  .stage {
+    box-shadow: none;
+  }
+  .stage::after {
+    box-shadow: none;
+  }
+  .stage-kind {
+    background: #ffffffd9;
+  }
+  .icon-button {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: #ffffffd9;
+    touch-action: manipulation;
+  }
+  .icon-button svg {
+    width: 14px;
+    height: 14px;
+  }
+  .icon-button:hover {
+    background: #ffffffd9;
+  }
+  .stage-tools {
+    left: 10px;
+    bottom: 10px;
+    gap: 6px;
+    opacity: 1;
+    transform: none;
+  }
+  .source-button {
+    min-width: 40px;
+    min-height: 40px;
+    justify-content: flex-end;
+    padding: 8px 0 8px 12px;
+    touch-action: manipulation;
+  }
+  .source-button:hover svg:last-child {
+    transform: none;
+  }
+  .filters button,
+  .playback-button {
+    min-height: 40px;
+    touch-action: manipulation;
+  }
+  .learning-note,
+  .site-footer {
+    scale: 1;
+    transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .source-dialog::backdrop {
+    background: #1c282359;
+  }
+  .source-dialog {
+    box-shadow: 0 20px 60px #15281f33;
   }
 }
 @media (prefers-reduced-motion: reduce) {

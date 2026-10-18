@@ -14,14 +14,14 @@ export function CodeWorkspace() {
       if (!element) return
       const point = pointer.current
       const rect = element.getBoundingClientRect()
-      const x = point
-        ? Math.max(0, Math.min(100, ((point.x - rect.left) / Math.max(1, rect.width)) * 100))
-        : 50
-      const y = point
-        ? Math.max(0, Math.min(100, ((point.y - rect.top) / Math.max(1, rect.height)) * 100))
-        : 50
+      const px = point ? Math.max(0, Math.min(rect.width, point.x - rect.left)) : rect.width / 2
+      const py = point ? Math.max(0, Math.min(rect.height, point.y - rect.top)) : rect.height / 2
+      const x = (px / Math.max(1, rect.width)) * 100
+      const y = (py / Math.max(1, rect.height)) * 100
       element.style.setProperty('--code-x', `${x}%`)
       element.style.setProperty('--code-y', `${y}%`)
+      element.style.setProperty('--code-dx', `${px - rect.width / 2}px`)
+      element.style.setProperty('--code-dy', `${py - rect.height / 2}px`)
       element.style.setProperty('--code-shift-x', `${((x - 50) * 0.16).toFixed(2)}px`)
       element.style.setProperty('--code-shift-y', `${((y - 50) * 0.16).toFixed(2)}px`)
     })
@@ -36,7 +36,9 @@ export function CodeWorkspace() {
     pointer.current = { x: event.clientX, y: event.clientY }
     schedule()
   }
-  const leave = () => {
+  const leave = (event: PointerEvent<HTMLDivElement>) => {
+    // 触摸抬手后 pointerleave 也会触发；保留最后触点，让手指点过的地方继续有反馈。
+    if (event.pointerType === 'touch') return
     pointer.current = null
     schedule()
   }
@@ -48,10 +50,13 @@ export function CodeWorkspace() {
         {
           '--code-x': '50%',
           '--code-y': '50%',
+          '--code-dx': '0px',
+          '--code-dy': '0px',
           '--code-shift-x': '0px',
           '--code-shift-y': '0px',
         } as CSSProperties
       }
+      onPointerDown={move}
       onPointerMove={move}
       onPointerLeave={leave}
       aria-label="代码工作台互动动画"

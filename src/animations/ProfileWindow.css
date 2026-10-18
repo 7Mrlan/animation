@@ -1,24 +1,22 @@
 /* 从原首页样式筛选，保留关键帧与层叠顺序。 */
 .catalog-account-art {
-  background: linear-gradient(135deg, #f1eef9, #fbfaff);
-  color: #67558e;
-}
-.catalog-account-art {
   background: linear-gradient(135deg, #f3f5fb, #fbfcff);
   color: #526783;
   cursor: crosshair;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 .account-glow {
   position: absolute;
-  left: calc(var(--account-x) - 68px);
-  top: calc(var(--account-y) - 68px);
+  left: 50%;
+  top: 50%;
   width: 136px;
   height: 136px;
   border-radius: 50%;
   background: radial-gradient(circle, #e3eaff 0, transparent 70%);
+  translate: calc(var(--account-dx, 0px) - 68px) calc(var(--account-dy, 0px) - 68px);
   transition: none;
   animation: account-glow-breathe 4.8s ease-in-out infinite;
-  will-change: left, top;
 }
 .account-window {
   position: absolute;
@@ -123,14 +121,13 @@
 .account-cursor {
   position: absolute;
   z-index: 4;
-  left: var(--account-x);
-  top: var(--account-y);
+  left: 50%;
+  top: 50%;
   color: #52719f;
   font-size: 22px;
   text-shadow: 0 3px 8px #3855772c;
-  transform: translate3d(4px, 4px, 0);
+  translate: calc(var(--account-dx, 0px) + 4px) calc(var(--account-dy, 0px) + 4px);
   transition: none;
-  will-change: left, top;
   animation: account-cursor-blink 3.8s ease-in-out infinite;
 }
 @keyframes account-glow-breathe {
@@ -176,4 +173,10 @@
   height: 100%;
   overflow: hidden;
   border-radius: inherit;
+}
+
+@media (hover: none) {
+  .catalog-account-art:hover .account-window {
+    transform: translate(-50%, -50%) rotate(-4deg);
+  }
 }

@@ -42,6 +42,19 @@ mounted && inView && pageVisible && !paused && !reduced
 
 深链接也有同样的位移问题：`scrollIntoView` 按当前的变换后矩形对齐，如果卡片仍在 26px 的显现位移中，最终会偏上。`App` 改为累加 `offsetTop` 得到布局位置再滚动；`:target` 规则则让文档加载后命中的目标直接落到终态。两者都不依赖过渡何时结束。
 
+## 手机端为什么要减绘制
+
+桌面顺滑不代表手机顺滑。手机 GPU 对滚动中的大范围采样和滤镜更敏感，触摸手势也会先被浏览器用于滚动。当前针对手机和触屏设备做了这些取舍：
+
+- 毛玻璃只保留在 `(hover: hover) and (pointer: fine)`；触屏使用不透明控件，避免滚动时每帧重新采样 `backdrop-filter`。
+- 触屏关闭 `filter: blur`、`drop-shadow` 和卡片的 `scale` 显现，阴影只保留两层；显现仍用 `opacity + translate`。
+- 指针场景从动画 `left/top` 改为 `translate` + `--*-dx/dy`，避免每次指针移动触发布局；`onPointerDown` 让点按立即生效，触摸抬手不会清空位置，`touch-action: manipulation` 保留页面纵向滚动。
+- 控件触摸目标放大到 40px；DeepSeek 的鲸鱼手柄保留 `touch-action: none`，独占拖拽。
+- Lottie runtime 在首屏空闲预热；场景挂载后等滚动停止 180ms 再创建 SVG，触屏滚动期间暂停 Lottie。这样 150ms 级的 SVG 构建长任务不会落在滚动帧里。
+- `.stage` 使用 `contain: paint`。舞台高度固定，因此不会改变滚动高度；外卡片仍不使用 paint containment，避免裁掉阴影。
+
+以上不是“手机上一定满帧”的保证。验收时应在生产构建里，用移动端尺寸、DPR 和 CPU 节流测量 `requestAnimationFrame` 帧间隔，并单独用触摸事件检查交互，而不是只看桌面浏览器。
+
 ## CSS、RAF 与 Lottie 分别怎么停
 
 | 动画类型   | 当前暂停方式                                                     | 清理位置                   |
@@ -91,6 +104,8 @@ CSS 规则同时覆盖普通元素与 `::before`、`::after`。漏掉伪元素�
 | 观察器是否共享、清理是否干净   | `observer-registry` 单元测试                        |
 | 动画代码/CSS 是否按需加载      | 构建分块列表 + 浏览器网络面板                       |
 | 页面底部会不会跳动             | 顶部/底部读取 `scrollHeight`，比较未显现/已显现状态 |
+| 手机滚动是否掉帧               | 生产构建 + 移动端 CPU 节流 + rAF 帧间隔             |
+| 手指能否操作场景               | 触摸模拟检查 CSS 变量、`aria-pressed` 或拖拽位置    |
 | 减少动态效果后是否仍能看到主体 | 浏览器开启相应媒体偏好                              |
 | 多次筛选后是否积累播放器       | 浏览器观察 DOM、性能与生命周期                      |
 | 源码弹窗能否关闭并返回触发按钮 | 键盘打开、Esc 关闭，再看焦点                        |
@@ -103,9 +118,9 @@ CSS 规则同时覆盖普通元素与 `::before`、`::after`。漏掉伪元素�
 
 ```text
 请审查当前动画项目的播放生命周期，先不要修改文件。
-阅读 useMotionActivity.ts、viewport-window.ts、observer-registry.ts、catalog.tsx、AnimationCard.tsx、CardDeck.tsx、DuoPlayer.tsx 和相关暂停/显现样式。
+阅读 useMotionActivity.ts、viewport-window.ts、observer-registry.ts、catalog.tsx、AnimationCard.tsx、CardDeck.tsx、DuoPlayer.tsx、duo-preload.ts、ClaudeField.tsx、CodeWorkspace.tsx、ProfileWindow.tsx 和相关暂停/显现/触摸样式。
 逐项核对手动暂停、离屏窗口、代码分块与 Suspense 回退、标签页隐藏、减少动态效果、重播、筛选卸载、滚动显现和键盘聚焦。
-特别检查：视口边界抖动、窗口卸载导致的状态丢失、共享观察器的订阅/清理、分块加载失败是否拖垮整页、显现是否改变 scrollHeight、减少动态效果下是否仍能看到并操作内容。
+特别检查：视口边界抖动、窗口卸载导致的状态丢失、共享观察器的订阅/清理、分块加载失败是否拖垮整页、显现是否改变 scrollHeight、减少动态效果下是否仍能看到并操作内容、手机滚动帧间隔、触摸 pointerdown/pointerleave、backdrop-filter/filter/scale 的触屏降级、Lottie 是否在滚动期间创建或播放。
 每个结论都给出文件与实际分支，区分已有行为、潜在限制和已经复现的问题。
 不要承诺固定帧率，也不要把 npm run check 等同于浏览器验收。
 最后只提出最值得先处理的一项改动，写清复现步骤和验收方法。

@@ -10,6 +10,8 @@
   );
   color: var(--code-ink);
   cursor: crosshair;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
   transition: background 0.3s ease;
 }
 .catalog-gpt-code-art::before {
@@ -29,8 +31,8 @@
 }
 .gpt-code-aura {
   position: absolute;
-  left: calc(var(--code-x) - 55px);
-  top: calc(var(--code-y) - 55px);
+  left: 50%;
+  top: 50%;
   width: 110px;
   height: 110px;
   border: 1px solid #79a89a77;
@@ -39,24 +41,22 @@
     0 0 0 8px #79a89a12,
     0 0 0 18px #79a89a0a;
   transform: scale(0.75);
-  transition:
-    left 0.14s linear,
-    top 0.14s linear;
+  translate: calc(var(--code-dx, 0px) - 55px) calc(var(--code-dy, 0px) - 55px);
+  transition: translate 0.14s linear;
   animation: gpt-code-aura 4s ease-in-out infinite;
   pointer-events: none;
 }
 .gpt-code-crosshair {
   position: absolute;
   z-index: 1;
-  left: calc(var(--code-x) - 10px);
-  top: calc(var(--code-y) - 10px);
+  left: 50%;
+  top: 50%;
   width: 20px;
   height: 20px;
   border: 1px solid #638d8277;
   border-radius: 50%;
-  transition:
-    left 0.1s linear,
-    top 0.1s linear;
+  translate: calc(var(--code-dx, 0px) - 10px) calc(var(--code-dy, 0px) - 10px);
+  transition: translate 0.1s linear;
   pointer-events: none;
 }
 .gpt-code-crosshair::before,
@@ -242,4 +242,10 @@
   height: 100%;
   overflow: hidden;
   border-radius: inherit;
+}
+
+@media (hover: none), (max-width: 600px) {
+  .catalog-gpt-code-art {
+    transition: none;
+  }
 }

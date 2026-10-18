@@ -14,15 +14,15 @@ export function ProfileWindow() {
       if (!element) return
       const point = pointer.current
       if (!point) {
-        element.style.setProperty('--account-x', '50%')
-        element.style.setProperty('--account-y', '50%')
+        element.style.setProperty('--account-dx', '0px')
+        element.style.setProperty('--account-dy', '0px')
         return
       }
       const rect = element.getBoundingClientRect()
-      const x = Math.max(0, Math.min(100, ((point.x - rect.left) / Math.max(1, rect.width)) * 100))
-      const y = Math.max(0, Math.min(100, ((point.y - rect.top) / Math.max(1, rect.height)) * 100))
-      element.style.setProperty('--account-x', `${x}%`)
-      element.style.setProperty('--account-y', `${y}%`)
+      const px = Math.max(0, Math.min(rect.width, point.x - rect.left))
+      const py = Math.max(0, Math.min(rect.height, point.y - rect.top))
+      element.style.setProperty('--account-dx', `${px - rect.width / 2}px`)
+      element.style.setProperty('--account-dy', `${py - rect.height / 2}px`)
     })
   }
   useEffect(
@@ -35,7 +35,9 @@ export function ProfileWindow() {
     pointer.current = { x: event.clientX, y: event.clientY }
     schedule()
   }
-  const leave = () => {
+  const leave = (event: PointerEvent<HTMLDivElement>) => {
+    // 触摸抬手后 pointerleave 也会触发；保留最后触点，让手指点过的地方继续有反馈。
+    if (event.pointerType === 'touch') return
     pointer.current = null
     schedule()
   }
@@ -43,7 +45,8 @@ export function ProfileWindow() {
     <div
       ref={art}
       className={`catalog-special-art catalog-account-art`}
-      style={{ '--account-x': '50%', '--account-y': '50%' } as CSSProperties}
+      style={{ '--account-dx': '0px', '--account-dy': '0px' } as CSSProperties}
+      onPointerDown={move}
       onPointerMove={move}
       onPointerLeave={leave}
       aria-label="浮动档案窗口动画"

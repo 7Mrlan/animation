@@ -67,6 +67,8 @@
   );
   color: var(--claude-ink);
   cursor: crosshair;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
   transition: background 0.35s ease;
 }
 .catalog-claude-art::before {
@@ -88,15 +90,14 @@
   position: absolute;
   width: 150px;
   height: 150px;
-  left: calc(var(--claude-x) - 75px);
-  top: calc(var(--claude-y) - 75px);
+  left: 50%;
+  top: 50%;
   border: 1px solid #d78263;
   border-radius: 50%;
   opacity: 0.25;
   transform: scale(0.6);
-  transition:
-    left 0.35s ease,
-    top 0.35s ease;
+  translate: calc(var(--claude-dx, 0px) - 75px) calc(var(--claude-dy, 0px) - 75px);
+  transition: translate 0.35s ease;
   animation: claude-field-pulse 4.8s ease-in-out infinite;
   pointer-events: none;
 }
@@ -200,18 +201,18 @@
 .claude-mark {
   position: absolute;
   z-index: 4;
-  left: calc(50% + (var(--claude-x) - 50%) * 0.12);
-  top: calc(50% + (var(--claude-y) - 50%) * 0.12);
+  left: 50%;
+  top: 50%;
   width: 61px;
   height: 61px;
   transform: translate(-50%, -50%) rotate(-5deg);
+  translate: calc(var(--claude-dx, 0px) * 0.12) calc(var(--claude-dy, 0px) * 0.12);
   background: currentColor;
   mask: url('../../public/brands/claude.svg') center/contain no-repeat;
   -webkit-mask: url('../../public/brands/claude.svg') center/contain no-repeat;
   filter: drop-shadow(0 10px 12px #a95c442b);
   transition:
-    left 0.25s ease,
-    top 0.25s ease,
+    translate 0.25s ease,
     transform 0.3s ease;
   animation: claude-mark-breathe 4.2s ease-in-out infinite;
 }
@@ -352,4 +353,21 @@
   height: 100%;
   overflow: hidden;
   border-radius: inherit;
+}
+
+/* 手机端去掉持续 filter 动画与渐变背景重绘，保留点击后的位置反馈。 */
+@media (hover: none), (max-width: 600px) {
+  .catalog-claude-art {
+    transition: none;
+  }
+  .claude-mark {
+    filter: none;
+    animation: none;
+  }
+}
+
+@media (hover: none) {
+  .catalog-claude-art:hover .claude-mark {
+    transform: translate(-50%, -50%) rotate(-5deg);
+  }
 }

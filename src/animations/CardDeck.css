@@ -5,6 +5,8 @@
   isolation: isolate;
   outline: none;
   cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 .store-deck:focus-visible {
   outline: 2px solid #648b76;
@@ -19,6 +21,10 @@
   height: 110px;
   z-index: var(--tier-z, 1);
   transform-origin: center;
+  will-change: auto;
+}
+/* 只在真正播放时提升图层，离屏/暂停的卡片不长期占用合成层。 */
+.stage[data-paused='false'] .store-tier {
   will-change: transform;
 }
 .store-tier-face {
@@ -115,5 +121,13 @@
   .store-tier-copy,
   .store-tier-face {
     transition: none;
+  }
+}
+@media (hover: none), (max-width: 600px) {
+  .store-tier-copy {
+    filter: none;
+    transition:
+      opacity 360ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
   }
 }

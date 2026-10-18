@@ -1,21 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import type { AnimationItem } from 'lottie-web'
-
-// 窗口化会让 Duo 场景反复卸载/挂载；JSON 只取一次，失败时清空以便重试。
-let duoAnimationData: Promise<unknown> | null = null
-
-function loadDuoAnimationData() {
-  duoAnimationData ??= fetch(`${import.meta.env.BASE_URL}brands/duolingo-duo-home.json`)
-    .then((response) => {
-      if (!response.ok) throw new Error('Duo animation unavailable')
-      return response.json() as Promise<unknown>
-    })
-    .catch((error: unknown) => {
-      duoAnimationData = null
-      throw error
-    })
-  return duoAnimationData
-}
+import { loadDuoAnimationData } from '../lib/duo-preload'
 
 export function DuoPlayer({ visible }: { visible: boolean }) {
   const container = useRef<HTMLDivElement>(null)
@@ -30,16 +15,19 @@ export function DuoPlayer({ visible }: { visible: boolean }) {
 
   useEffect(() => {
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const pauseWhileScrolling = window.matchMedia('(hover: none), (pointer: coarse)').matches
     let animation: AnimationItem | undefined
     let loading = false
     let disposed = false
+    let scrolling = true
+    let idleTimer: number | undefined
 
     const sync = () => {
       if (reducedMotion.matches || document.hidden || !visibility.current) {
         animation?.pause()
       } else if (animation) {
-        animation.play()
-      } else if (!loading) {
+        if (!scrolling || !pauseWhileScrolling) animation.play()
+      } else if (!loading && !scrolling) {
         void load()
       }
     }
@@ -50,7 +38,11 @@ export function DuoPlayer({ visible }: { visible: boolean }) {
           import('lottie-web/build/player/lottie_light'),
           loadDuoAnimationData(),
         ])
-        if (disposed || !container.current) return
+        if (disposed) return
+        if (!container.current) {
+          loading = false
+          return
+        }
         animation = player.default.loadAnimation({
           container: container.current,
           renderer: 'svg',
@@ -70,15 +62,33 @@ export function DuoPlayer({ visible }: { visible: boolean }) {
           animation?.pause()
         })
       } catch {
-        // Keep the matching official poster if the player or asset cannot load.
+        // Keep the matching official poster; a later scroll idle can retry.
+        if (!disposed) loading = false
       }
+    }
+    // 滚动期间不创建/播放 Lottie；停止滚动 180ms 后再继续，避免 SVG 构建落在滚动帧里。
+    const scheduleIdle = () => {
+      if (disposed) return
+      scrolling = true
+      if (pauseWhileScrolling) animation?.pause()
+      window.clearTimeout(idleTimer)
+      idleTimer = window.setTimeout(() => {
+        idleTimer = undefined
+        scrolling = false
+        if (disposed || document.hidden || reducedMotion.matches) return
+        sync()
+      }, 180)
     }
     synchronize.current = sync
     reducedMotion.addEventListener('change', sync)
     document.addEventListener('visibilitychange', sync)
+    window.addEventListener('scroll', scheduleIdle, { passive: true })
+    scheduleIdle()
     sync()
     return () => {
       disposed = true
+      window.clearTimeout(idleTimer)
+      window.removeEventListener('scroll', scheduleIdle)
       synchronize.current = () => {}
       reducedMotion.removeEventListener('change', sync)
       document.removeEventListener('visibilitychange', sync)
