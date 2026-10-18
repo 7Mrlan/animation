@@ -1,0 +1,33 @@
+{
+  "name": "animation-study",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "从首页抽离的交互动画卡片集：React + TypeScript + Vite。",
+  "engines": {
+    "node": ">=22.18.0"
+  },
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview --host 127.0.0.1",
+    "typecheck": "tsc --noEmit",
+    "test": "node --experimental-strip-types --test tests/*.test.ts",
+    "format": "prettier --write src index.html vite.config.ts tsconfig.json README.md docs tests",
+    "check": "npm run typecheck && npm test && vite build"
+  },
+  "dependencies": {
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "lottie-web": "5.13.0"
+  },
+  "devDependencies": {
+    "@types/node": "24.19.2",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "6.1.2",
+    "typescript": "6.0.3",
+    "vite": "8.3.4",
+    "prettier": "3.9.10"
+  }
+}

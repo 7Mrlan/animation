@@ -1,0 +1,99 @@
+/* 从原首页样式筛选，保留关键帧与层叠顺序。 */
+.store-mail-art {
+  position: relative;
+  height: 185px;
+  margin-top: 6px;
+  display: grid;
+  place-items: center;
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.store-envelope {
+  width: 170px;
+  height: 94px;
+  border-radius: 11px;
+  background: #e2e9f4;
+  border: 1px solid #ccd5e3;
+  box-shadow: 0 10px 20px #30476018;
+  transform: rotate(-6deg);
+  position: relative;
+  overflow: hidden;
+  animation: store-envelope-float 5s ease-in-out infinite;
+}
+.store-envelope:before {
+  content: '';
+  position: absolute;
+  width: 124px;
+  height: 124px;
+  background: #f3f6fb;
+  border: 1px solid #ccd5e3;
+  left: 22px;
+  top: -82px;
+  transform: rotate(45deg);
+  border-radius: 8px;
+}
+.store-envelope:after {
+  content: '';
+  position: absolute;
+  width: 124px;
+  height: 124px;
+  background: #fafcff;
+  border: 1px solid #dae1ec;
+  left: 22px;
+  top: 48px;
+  transform: rotate(45deg);
+  border-radius: 8px;
+}
+.store-envelope-label {
+  position: absolute;
+  top: 108px;
+  left: calc(50% + 14px);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #fff;
+  color: #405574;
+  padding: 10px;
+  border: 1px solid #e1e6ef;
+  box-shadow: 0 4px 10px #0000000a;
+  border-radius: 8px;
+  transform: rotate(5deg);
+  font-size: 12px;
+  animation: store-mail-label-float 5s ease-in-out infinite;
+}
+@keyframes store-envelope-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-6deg);
+  }
+  50% {
+    transform: translateY(-7px) rotate(-3deg);
+  }
+}
+@keyframes store-mail-label-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(5deg);
+  }
+  50% {
+    transform: translateY(3px) rotate(8deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .store-mail-art {
+    transition: none;
+  }
+  .store-envelope,
+  .store-envelope-label {
+    animation: none;
+  }
+}
+
+.store-mail-art {
+  height: 100%;
+  margin: 0;
+  background: radial-gradient(ellipse at center, #e8edf9, #f6f8fc);
+  border-radius: inherit;
+}
+.store-envelope-label {
+  top: calc(50% + 15px);
+}

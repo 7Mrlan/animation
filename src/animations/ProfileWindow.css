@@ -1,0 +1,179 @@
+/* 从原首页样式筛选，保留关键帧与层叠顺序。 */
+.catalog-account-art {
+  background: linear-gradient(135deg, #f1eef9, #fbfaff);
+  color: #67558e;
+}
+.catalog-account-art {
+  background: linear-gradient(135deg, #f3f5fb, #fbfcff);
+  color: #526783;
+  cursor: crosshair;
+}
+.account-glow {
+  position: absolute;
+  left: calc(var(--account-x) - 68px);
+  top: calc(var(--account-y) - 68px);
+  width: 136px;
+  height: 136px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #e3eaff 0, transparent 70%);
+  transition: none;
+  animation: account-glow-breathe 4.8s ease-in-out infinite;
+  will-change: left, top;
+}
+.account-window {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  top: 50%;
+  width: 184px;
+  height: 118px;
+  transform: translate(-50%, -50%) rotate(-4deg);
+  overflow: hidden;
+  border: 1px solid #cbd6e7;
+  border-radius: 12px;
+  background: #ffffffd9;
+  box-shadow:
+    0 18px 28px #34496517,
+    inset 0 1px 0 #fff;
+  transition: transform 0.3s ease;
+  animation: account-window-float 5.5s ease-in-out infinite;
+}
+.catalog-account-art:hover .account-window {
+  transform: translate(-50%, -53%) rotate(1deg) scale(1.04);
+}
+.account-window-bar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 22px;
+  padding: 0 8px;
+  border-bottom: 1px solid #e1e7f0;
+  background: #f7f9fd;
+}
+.account-window-bar i {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #aab9ce;
+}
+.account-window-bar span {
+  margin-left: auto;
+  font-size: 7px;
+  letter-spacing: 1px;
+  opacity: 0.55;
+}
+.account-profile {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 14px 13px 7px;
+}
+.account-avatar {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: #e8eef9;
+  color: #5e79a6;
+  font-weight: 700;
+  font-size: 13px;
+}
+.account-copy {
+  display: grid;
+  gap: 3px;
+}
+.account-copy b {
+  font-size: 10px;
+  font-weight: 600;
+}
+.account-copy small {
+  font-size: 8px;
+  opacity: 0.65;
+}
+.account-check {
+  margin-left: auto;
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #e3f2ea;
+  color: #469064;
+  font-size: 11px;
+}
+.account-lines {
+  display: grid;
+  gap: 4px;
+  padding: 0 13px;
+}
+.account-lines i {
+  display: block;
+  width: 100%;
+  height: 4px;
+  border-radius: 4px;
+  background: #e5ebf4;
+}
+.account-lines i:nth-child(2) {
+  width: 68%;
+}
+.account-lines i:nth-child(3) {
+  width: 42%;
+}
+.account-cursor {
+  position: absolute;
+  z-index: 4;
+  left: var(--account-x);
+  top: var(--account-y);
+  color: #52719f;
+  font-size: 22px;
+  text-shadow: 0 3px 8px #3855772c;
+  transform: translate3d(4px, 4px, 0);
+  transition: none;
+  will-change: left, top;
+  animation: account-cursor-blink 3.8s ease-in-out infinite;
+}
+@keyframes account-glow-breathe {
+  0%,
+  100% {
+    transform: scale(0.8);
+    opacity: 0.55;
+  }
+  50% {
+    transform: scale(1.14);
+    opacity: 1;
+  }
+}
+@keyframes account-window-float {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) rotate(-4deg);
+  }
+  50% {
+    transform: translate(-50%, -54%) rotate(0);
+  }
+}
+@keyframes account-cursor-blink {
+  0%,
+  100% {
+    opacity: 0.42;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .account-glow,
+  .account-window,
+  .account-cursor {
+    animation: none;
+  }
+}
+
+.catalog-special-art {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: inherit;
+}

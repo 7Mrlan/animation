@@ -1,0 +1,93 @@
+# 轻动 · Animation Studies
+
+把细微的互动，收藏成卡片。一个从现有首页抽离出来的动画学习项目：九张独立动画卡片，可暂停、重播、筛选，并直接查看运行中的源码。
+
+**只有动画，没有商品、价格、购买流程、登录或后台接口。**
+
+## 本地运行
+
+需要 Node.js **22.18+（22 系列）或 24+**，推荐 Node.js 24 LTS，与 `.nvmrc` 和 CI 一致。
+
+```bash
+git clone https://github.com/7Mrlan/animation.git
+cd animation
+npm ci
+npm run dev
+```
+
+打开终端显示的本地地址，通常是 `http://localhost:5173`。
+
+```bash
+npm run typecheck  # TypeScript 严格检查
+npm test           # 卡片时间轴、循环衔接和展开几何测试
+npm run build      # 类型检查 + 生成 dist/
+npm run preview    # 本地预览生产构建
+npm run check      # 类型 + 测试 + 构建，与 CI 一致
+npm run format     # 格式化代码和文档
+```
+
+## 为什么是这套框架
+
+- **React + TypeScript**：沿用原动画组件的实现，减少重新翻译动画带来的偏差，并将展示与运动逻辑分开。
+- **Vite**：这个项目是静态演示，无需服务端渲染、路由或后端。构建结果可直接托管。
+- **普通 CSS**：关键帧、变量、伪元素、阴影都可以直接阅读，不依赖样式框架。
+- **Lottie light SVG**：只为 Duo 示例按需加载；其余动画使用 CSS 或 `requestAnimationFrame`。
+- 运行时只有 React、React DOM 和 Lottie 三个依赖；字体使用系统字体，动画素材本地提供。
+
+## 动画目录
+
+| 卡片            | 内容                                     | 核心入口                                                                               |
+| --------------- | ---------------------------------------- | -------------------------------------------------------------------------------------- |
+| 01 层叠之间     | 卡片抽出、下沉、归位；悬停/聚焦/触摸展开 | [CardDeck.tsx](src/animations/CardDeck.tsx) · [时间轴](src/lib/subscription-motion.ts) |
+| 02 灵感引力场   | Claude 标志、纸片、轨道、指针光晕        | [ClaudeField.tsx](src/animations/ClaudeField.tsx)                                      |
+| 03 星光慢行     | Gemini 星形、双轨旋转、星点呼吸          | [Membership.tsx](src/animations/Membership.tsx)                                        |
+| 04 代码微光     | 终端浮动、指针准星、背景网格视差         | [CodeWorkspace.tsx](src/animations/CodeWorkspace.tsx)                                  |
+| 05 一声 Hello   | Duo Lottie 循环与静态海报回退            | [DuoPlayer.tsx](src/animations/DuoPlayer.tsx)                                          |
+| 06 讯息涟漪     | 手机浮动、消息交错出现、信号呼吸         | [TelegramSignal.tsx](src/animations/TelegramSignal.tsx)                                |
+| 07 光标来访     | 浮动窗口、光晕与装饰光标跟随             | [ProfileWindow.tsx](src/animations/ProfileWindow.tsx)                                  |
+| 08 小小宇宙     | 轨道、悬浮粒子、中心呼吸                 | [OrbitCore.tsx](src/animations/OrbitCore.tsx)                                          |
+| 09 一封轻盈的信 | 伪元素信封与反向浮动标签                 | [FloatingMail.tsx](src/animations/FloatingMail.tsx)                                    |
+
+每个组件旁边都有对应 CSS。Gemini 与 Duo 共用 `Membership.css`。查看文件面板还会显示动画所需的时间轴、播放器或 Hook，便于一起复制。
+
+## 学习顺序
+
+1. 先看 `FloatingMail` / `TelegramSignal`：理解 `@keyframes`、伪元素和错峰延迟。
+2. 看 `GeminiOrbit` / `OrbitCore`：理解多组动画如何叠加，注意每组 `transform` 的作用层级。
+3. 看 `ClaudeField` / `CodeWorkspace` / `ProfileWindow`：理解指针坐标、CSS 变量和 RAF 合帧。
+4. 看 `CardDeck` 和 `subscription-motion.ts`：理解离散阶段、连续插值和层级交接。
+5. 看 `DuoPlayer`：理解异步加载、取消、失败回退和动画实例销毁。
+
+详见 [学习与复用指南](docs/LEARNING.md)、[抽离对应表](docs/EXTRACTION.md)、[素材来源](docs/ATTRIBUTION.md)。
+
+## 结构
+
+```text
+src/
+  animations/       独立动画组件与对应 CSS
+  lib/              卡片运动的纯计算函数
+  hooks/            可见性与系统减少动态效果偏好
+  components/       卡片外壳、源码对话框、图标
+  catalog.tsx       九个动画的名称、说明与源码路径
+  App.tsx           筛选与全局播放状态
+  styles.css        新的卡片画廊外观
+public/brands/      原动画所需的本地素材和第三方许可
+```
+
+## 播放与可访问性
+
+- 卡片离屏、页面隐藏、打开源码面板时暂停；返回后恢复。
+- 每张卡片和整页均可手动暂停，重播会重建该动画实例。
+- 遵循系统 `prefers-reduced-motion`：展示静态构图、Duo 海报，不开启循环动画。卡片展开可用键盘立即切换。
+- 源码面板使用原生 `<dialog>`，支持 Esc、焦点约束及关闭后焦点返回。
+- 手机可点击层叠卡片展开；所有卡片均提供触摸可用的播放工具。
+
+## 静态部署
+
+`npm run build` 后部署 `dist/`。`base: './'` 让产物支持根目录及 `/animation/` 等子目录；Lottie 和海报路径也遵循同一规则。项目不需要环境变量。
+
+仓库自带 CI 检查，不会自动启用站点发布或修改 GitHub Pages 设置。
+
+## 来源说明
+
+动画来自原项目当前工作区，只复制到新项目，原项目保持不动。保留原来的动画形状、配色、关键帧和主要时序，移除业务依赖，并重新设计展示卡片。信封示例根据原首页保留的 CSS 恢复最小 DOM。品牌图形与 Duo 动画保留其原有权利说明；详见 [ATTRIBUTION](docs/ATTRIBUTION.md)。

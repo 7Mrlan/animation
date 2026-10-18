@@ -1,0 +1,120 @@
+/* 从原首页样式筛选，保留关键帧与层叠顺序。 */
+.catalog-telegram-art {
+  background: linear-gradient(135deg, #e7f6fb, #f7fcff);
+  color: #348caf;
+}
+.telegram-phone {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 65px;
+  height: 112px;
+  border-radius: 14px;
+  border: 2px solid currentColor;
+  transform: translate(-50%, -50%) rotate(-7deg);
+  background: #ffffffb8;
+  box-shadow: 0 14px 22px #3286aa20;
+  animation: telegram-phone-float 4s ease-in-out infinite;
+}
+.telegram-notch {
+  position: absolute;
+  left: 50%;
+  top: 5px;
+  width: 26px;
+  height: 5px;
+  transform: translateX(-50%);
+  border-radius: 4px;
+  background: currentColor;
+  opacity: 0.42;
+}
+.telegram-message {
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  height: 16px;
+  padding: 3px 5px;
+  border-radius: 5px;
+  background: #d6f0fa;
+  font-size: 7px;
+  color: #2f7f9d;
+}
+.telegram-message.msg-a {
+  top: 28px;
+  animation: telegram-message-in 3.5s ease-in-out infinite;
+}
+.telegram-message.msg-b {
+  top: 51px;
+  animation: telegram-message-in 3.5s 0.8s ease-in-out infinite;
+}
+.telegram-message.msg-c {
+  top: 74px;
+  animation: telegram-message-in 3.5s 1.6s ease-in-out infinite;
+}
+.telegram-signal {
+  position: absolute;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  opacity: 0.28;
+  animation: telegram-signal 3.2s ease-in-out infinite;
+}
+.telegram-signal.signal-a {
+  width: 35px;
+  height: 35px;
+  left: 15%;
+  top: 20%;
+}
+.telegram-signal.signal-b {
+  width: 54px;
+  height: 54px;
+  right: 8%;
+  bottom: 14%;
+  animation-delay: 1.2s;
+}
+@keyframes telegram-phone-float {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) rotate(-7deg);
+  }
+  50% {
+    transform: translate(-50%, -54%) rotate(-2deg);
+  }
+}
+@keyframes telegram-message-in {
+  0%,
+  20%,
+  100% {
+    opacity: 0.35;
+    transform: translateX(4px);
+  }
+  45%,
+  75% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes telegram-signal {
+  0%,
+  100% {
+    transform: scale(0.85);
+    opacity: 0.12;
+  }
+  50% {
+    transform: scale(1.18);
+    opacity: 0.35;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .telegram-phone,
+  .telegram-message,
+  .telegram-signal {
+    animation: none;
+  }
+}
+
+.catalog-special-art {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: inherit;
+}

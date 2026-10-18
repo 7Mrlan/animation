@@ -1,0 +1,119 @@
+/* 保留首页四层卡片的尺寸与运动路径，用中性文字替代套餐信息。 */
+.store-deck {
+  position: relative;
+  height: 100%;
+  isolation: isolate;
+  outline: none;
+  cursor: pointer;
+}
+.store-deck:focus-visible {
+  outline: 2px solid #648b76;
+  outline-offset: -6px;
+  border-radius: 18px;
+}
+.store-tier {
+  position: absolute;
+  left: calc(50% - 8px);
+  top: 50%;
+  width: min(174px, calc(100% - 40px));
+  height: 110px;
+  z-index: var(--tier-z, 1);
+  transform-origin: center;
+  will-change: transform;
+}
+.store-tier-face {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 13px;
+  border: 1px solid #ffffffa6;
+  background: var(--tier-background);
+  box-shadow:
+    0 9px 20px #24332b18,
+    inset 0 1px 0 #ffffffa0;
+  pointer-events: none;
+  transition:
+    transform 0.22s ease,
+    box-shadow 0.22s ease;
+}
+.store-tier[data-tier='0'] {
+  --tier-background: linear-gradient(135deg, #e7f3ec, #c7e0d3);
+  color: #254b3b;
+}
+.store-tier[data-tier='1'] {
+  --tier-background: linear-gradient(135deg, #e7eff9, #c8d9ec);
+  color: #294760;
+}
+.store-tier[data-tier='2'] {
+  --tier-background: linear-gradient(135deg, #eee9f6, #d9cde9);
+  color: #514265;
+}
+.store-tier[data-tier='3'] {
+  --tier-background: linear-gradient(135deg, #f5eddc, #e5d4b4);
+  color: #624e2e;
+}
+.store-tier-copy {
+  position: absolute;
+  inset: 0;
+  padding: 16px 19px;
+  opacity: 0;
+  filter: blur(4px);
+  transform: translateY(7px);
+  transition:
+    opacity 360ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 520ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 520ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.store-tier[data-copy-visible='true'] .store-tier-copy {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+.deck-kicker {
+  display: block;
+  font:
+    8px ui-monospace,
+    monospace;
+  letter-spacing: 1.5px;
+  opacity: 0.65;
+}
+.store-tier strong {
+  display: block;
+  margin-top: 9px;
+  font-size: 25px;
+  font-weight: 500;
+  letter-spacing: -0.8px;
+}
+.deck-symbol {
+  position: absolute;
+  right: 17px;
+  bottom: 12px;
+  font-size: 25px;
+  opacity: 0.6;
+}
+.deck-rule {
+  position: absolute;
+  bottom: 16px;
+  left: 19px;
+  width: 42px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.3;
+}
+@media (hover: hover) and (pointer: fine) {
+  .store-deck[data-phase='inspect'] .store-tier:hover {
+    z-index: 5;
+  }
+  .store-deck[data-phase='inspect'] .store-tier:hover .store-tier-face {
+    transform: translateY(-2px) scale(1.08);
+    box-shadow:
+      0 14px 28px #24332b2c,
+      inset 0 1px 0 #ffffffa0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .store-tier-copy,
+  .store-tier-face {
+    transition: none;
+  }
+}

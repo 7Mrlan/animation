@@ -1,0 +1,245 @@
+/* 从原首页样式筛选，保留关键帧与层叠顺序。 */
+.catalog-gpt-code-art {
+  --code-ink: #354052;
+  --code-accent: #6e8f89;
+  background: radial-gradient(
+    circle at var(--code-x) var(--code-y),
+    #e7f3ed 0,
+    #f2f6f4 38%,
+    #f8faf9 82%
+  );
+  color: var(--code-ink);
+  cursor: crosshair;
+  transition: background 0.3s ease;
+}
+.catalog-gpt-code-art::before {
+  content: '';
+  position: absolute;
+  inset: 12px;
+  border: 1px solid #b9ccc4;
+  border-radius: 14px;
+  opacity: 0.45;
+  background:
+    linear-gradient(90deg, transparent 49.5%, #b8c9c1 50%, transparent 50.5%),
+    linear-gradient(0deg, transparent 49.5%, #b8c9c1 50%, transparent 50.5%);
+  background-size: 24px 24px;
+  mask-image: radial-gradient(circle at var(--code-x) var(--code-y), #000 0, transparent 72%);
+  animation: gpt-code-grid 10s linear infinite;
+  pointer-events: none;
+}
+.gpt-code-aura {
+  position: absolute;
+  left: calc(var(--code-x) - 55px);
+  top: calc(var(--code-y) - 55px);
+  width: 110px;
+  height: 110px;
+  border: 1px solid #79a89a77;
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 8px #79a89a12,
+    0 0 0 18px #79a89a0a;
+  transform: scale(0.75);
+  transition:
+    left 0.14s linear,
+    top 0.14s linear;
+  animation: gpt-code-aura 4s ease-in-out infinite;
+  pointer-events: none;
+}
+.gpt-code-crosshair {
+  position: absolute;
+  z-index: 1;
+  left: calc(var(--code-x) - 10px);
+  top: calc(var(--code-y) - 10px);
+  width: 20px;
+  height: 20px;
+  border: 1px solid #638d8277;
+  border-radius: 50%;
+  transition:
+    left 0.1s linear,
+    top 0.1s linear;
+  pointer-events: none;
+}
+.gpt-code-crosshair::before,
+.gpt-code-crosshair::after {
+  content: '';
+  position: absolute;
+  background: #638d8277;
+}
+.gpt-code-crosshair::before {
+  width: 34px;
+  height: 1px;
+  left: -8px;
+  top: 9px;
+}
+.gpt-code-crosshair::after {
+  width: 1px;
+  height: 34px;
+  left: 9px;
+  top: -8px;
+}
+.gpt-code-terminal {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  top: 50%;
+  width: 194px;
+  height: 108px;
+  transform: translate(calc(-50% + var(--code-shift-x)), calc(-50% + var(--code-shift-y)))
+    rotate(-3deg);
+  border: 1px solid #c0d0cb;
+  border-radius: 12px;
+  background: #ffffffdf;
+  box-shadow:
+    0 17px 28px #36544a1a,
+    inset 0 1px 0 #fff;
+  overflow: hidden;
+  animation: gpt-code-terminal 5.6s ease-in-out infinite;
+  transition: box-shadow 0.18s ease;
+}
+.catalog-gpt-code-art:hover .gpt-code-terminal {
+  box-shadow:
+    0 20px 34px #36544a29,
+    inset 0 1px 0 #fff;
+}
+.gpt-code-bar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 22px;
+  padding: 0 8px;
+  border-bottom: 1px solid #dfe9e3;
+  background: #f7faf8;
+}
+.gpt-code-bar i {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #84a397;
+  opacity: 0.7;
+}
+.gpt-code-bar span {
+  margin-left: auto;
+  color: #6a8178;
+  font:
+    7px/1 ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    monospace;
+  letter-spacing: 1px;
+  opacity: 0.7;
+}
+.gpt-code-lines {
+  display: grid;
+  gap: 6px;
+  padding: 13px 13px 10px;
+  color: #6a7b76;
+  font:
+    9px/1.05 ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    monospace;
+}
+.gpt-code-lines span {
+  display: grid;
+  grid-template-columns: 17px 42px auto 1fr;
+  align-items: center;
+  white-space: nowrap;
+}
+.gpt-code-lines b {
+  color: #a7b8b1;
+  font-size: 7px;
+  font-weight: 400;
+}
+.gpt-code-lines i {
+  color: #5f8e83;
+  font-style: normal;
+}
+.gpt-code-lines strong {
+  color: #4d5a68;
+  font-weight: 600;
+}
+.gpt-code-lines em {
+  color: #97a39f;
+  font-style: normal;
+}
+.gpt-code-lines .gpt-code-caret {
+  grid-template-columns: 17px auto;
+  color: #568c7e;
+}
+.gpt-code-caret i {
+  animation: gpt-code-caret 1s steps(1, end) infinite;
+}
+.gpt-code-point-label {
+  position: absolute;
+  z-index: 3;
+  right: 12px;
+  bottom: 9px;
+  color: #55736b;
+  font:
+    8px ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    monospace;
+  letter-spacing: 1.6px;
+  opacity: 0.72;
+}
+@keyframes gpt-code-grid {
+  from {
+    background-position:
+      0 0,
+      0 0;
+  }
+  to {
+    background-position:
+      24px 24px,
+      -24px -24px;
+  }
+}
+@keyframes gpt-code-aura {
+  0%,
+  100% {
+    transform: scale(0.72);
+    opacity: 0.42;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.82;
+  }
+}
+@keyframes gpt-code-terminal {
+  0%,
+  100% {
+    transform: translate(calc(-50% + var(--code-shift-x)), calc(-50% + var(--code-shift-y)))
+      rotate(-3deg);
+  }
+  50% {
+    transform: translate(calc(-50% + var(--code-shift-x)), calc(-53% + var(--code-shift-y)))
+      rotate(0deg);
+  }
+}
+@keyframes gpt-code-caret {
+  0%,
+  45% {
+    opacity: 1;
+  }
+  46%,
+  100% {
+    opacity: 0.15;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .catalog-gpt-code-art::before,
+  .gpt-code-aura,
+  .gpt-code-terminal,
+  .gpt-code-caret {
+    animation: none;
+  }
+}
+
+.catalog-special-art {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: inherit;
+}

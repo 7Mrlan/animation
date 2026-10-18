@@ -1,0 +1,355 @@
+/* 从原首页样式筛选，保留关键帧与层叠顺序。 */
+.catalog-claude-art {
+  background: linear-gradient(135deg, #fbefe6, #fffaf6);
+  color: #ad7154;
+}
+.claude-paper {
+  position: absolute;
+  width: 72px;
+  height: 50px;
+  border: 1px solid #d9ad8f;
+  background: #fff9f1;
+  box-shadow: 0 10px 16px #8a543818;
+  border-radius: 8px;
+  transform: rotate(-18deg);
+}
+.claude-paper.paper-a {
+  left: 22%;
+  top: 33%;
+  animation: claude-paper-float 4.4s ease-in-out infinite;
+}
+.claude-paper.paper-b {
+  right: 18%;
+  top: 22%;
+  transform: rotate(18deg) scale(0.74);
+  animation: claude-paper-float 5.3s ease-in-out infinite reverse;
+}
+.claude-word {
+  position: absolute;
+  right: 12px;
+  bottom: 10px;
+  font-size: 8px;
+  letter-spacing: 2px;
+  opacity: 0.52;
+  writing-mode: vertical-rl;
+}
+@keyframes claude-paper-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-18deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(-12deg);
+  }
+}
+@keyframes claude-sun-pulse {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(0.92);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.08);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .claude-paper {
+    animation: none;
+  }
+}
+.catalog-claude-art {
+  --claude-ink: #c86f52;
+  --claude-paper: #fffaf4;
+  background: radial-gradient(
+    circle at var(--claude-x) var(--claude-y),
+    #ffe8dc 0,
+    #fbefe7 36%,
+    #f9f4ee 78%
+  );
+  color: var(--claude-ink);
+  cursor: crosshair;
+  transition: background 0.35s ease;
+}
+.catalog-claude-art::before {
+  content: '';
+  position: absolute;
+  inset: 10px;
+  border: 1px solid #d9a58e;
+  border-radius: 18px;
+  opacity: 0.35;
+  background:
+    linear-gradient(90deg, transparent 49.5%, #d9a58e 50%, transparent 50.5%),
+    linear-gradient(0deg, transparent 49.5%, #d9a58e 50%, transparent 50.5%);
+  background-size: 28px 28px;
+  mask-image: radial-gradient(circle at center, #000 0, transparent 72%);
+  animation: claude-grid-drift 9s linear infinite;
+}
+.catalog-claude-art::after {
+  content: '';
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  left: calc(var(--claude-x) - 75px);
+  top: calc(var(--claude-y) - 75px);
+  border: 1px solid #d78263;
+  border-radius: 50%;
+  opacity: 0.25;
+  transform: scale(0.6);
+  transition:
+    left 0.35s ease,
+    top 0.35s ease;
+  animation: claude-field-pulse 4.8s ease-in-out infinite;
+  pointer-events: none;
+}
+.claude-paper {
+  position: absolute;
+  z-index: 2;
+  width: 72px;
+  height: 50px;
+  border: 1px solid #d9ad8f;
+  background: linear-gradient(135deg, #fffdf9, #f7dfd1);
+  box-shadow: 0 10px 16px #8a543818;
+  border-radius: 8px;
+  transform: rotate(-18deg);
+}
+.claude-paper.paper-a {
+  left: 15%;
+  top: 28%;
+  animation: claude-paper-float 4.4s ease-in-out infinite;
+}
+.claude-paper.paper-b {
+  right: 13%;
+  top: 17%;
+  transform: rotate(18deg) scale(0.74);
+  animation: claude-paper-float 5.3s ease-in-out infinite reverse;
+}
+.claude-paper.paper-c {
+  left: 18%;
+  bottom: 12%;
+  width: 50px;
+  height: 35px;
+  transform: rotate(12deg) scale(0.65);
+  animation: claude-paper-float 6.1s ease-in-out infinite 0.6s;
+  opacity: 0.7;
+}
+.claude-paper::after {
+  content: '···';
+  position: absolute;
+  right: 8px;
+  bottom: 5px;
+  letter-spacing: 3px;
+  color: #c77759;
+  font-size: 10px;
+}
+.claude-field {
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  top: 50%;
+  width: 126px;
+  height: 126px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, #fffaf2 0, #f8cfc0 46%, transparent 72%);
+  opacity: 0.72;
+  animation: claude-sun-pulse 3.8s ease-in-out infinite;
+}
+.claude-thread {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  top: 50%;
+  width: 185px;
+  height: 72px;
+  border: 1px solid #cb785e;
+  border-radius: 50%;
+  opacity: 0.45;
+  transform: translate(-50%, -50%) rotate(-24deg);
+  animation: claude-thread-spin 7s linear infinite;
+}
+.claude-thread.thread-b {
+  width: 122px;
+  height: 198px;
+  transform: translate(-50%, -50%) rotate(34deg);
+  opacity: 0.28;
+  animation-duration: 10s;
+  animation-direction: reverse;
+}
+.claude-ray {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  top: 50%;
+  width: 116px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #c66d50, transparent);
+  transform-origin: left center;
+  opacity: 0.55;
+  animation: claude-ray-breathe 3.3s ease-in-out infinite;
+}
+.claude-ray.ray-a {
+  transform: rotate(18deg) translateX(26px);
+}
+.claude-ray.ray-b {
+  transform: rotate(142deg) translateX(22px);
+  animation-delay: 0.7s;
+}
+.claude-ray.ray-c {
+  transform: rotate(265deg) translateX(30px);
+  animation-delay: 1.4s;
+}
+.claude-mark {
+  position: absolute;
+  z-index: 4;
+  left: calc(50% + (var(--claude-x) - 50%) * 0.12);
+  top: calc(50% + (var(--claude-y) - 50%) * 0.12);
+  width: 61px;
+  height: 61px;
+  transform: translate(-50%, -50%) rotate(-5deg);
+  background: currentColor;
+  mask: url('../../public/brands/claude.svg') center/contain no-repeat;
+  -webkit-mask: url('../../public/brands/claude.svg') center/contain no-repeat;
+  filter: drop-shadow(0 10px 12px #a95c442b);
+  transition:
+    left 0.25s ease,
+    top 0.25s ease,
+    transform 0.3s ease;
+  animation: claude-mark-breathe 4.2s ease-in-out infinite;
+}
+.catalog-claude-art:hover .claude-mark {
+  transform: translate(-50%, -50%) rotate(6deg) scale(1.08);
+}
+.claude-node {
+  position: absolute;
+  z-index: 5;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #c76f53;
+  box-shadow: 0 0 0 5px #c76f531c;
+  animation: claude-node-pulse 2.7s ease-in-out infinite;
+}
+.claude-node.node-a {
+  left: 30%;
+  top: 23%;
+}
+.claude-node.node-b {
+  right: 24%;
+  top: 63%;
+  animation-delay: 0.8s;
+}
+.claude-node.node-c {
+  left: 23%;
+  bottom: 20%;
+  animation-delay: 1.6s;
+}
+.claude-word {
+  position: absolute;
+  z-index: 6;
+  right: 12px;
+  bottom: 10px;
+  font-size: 8px;
+  letter-spacing: 2px;
+  opacity: 0.58;
+  writing-mode: vertical-rl;
+}
+.claude-cursor {
+  position: absolute;
+  z-index: 7;
+  right: 29%;
+  bottom: 28%;
+  font-size: 17px;
+  opacity: 0.5;
+  animation: claude-cursor-drift 4s ease-in-out infinite;
+}
+@keyframes claude-grid-drift {
+  from {
+    background-position:
+      0 0,
+      0 0;
+  }
+  to {
+    background-position:
+      28px 28px,
+      -28px -28px;
+  }
+}
+@keyframes claude-field-pulse {
+  0%,
+  100% {
+    transform: scale(0.6);
+    opacity: 0.18;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.42;
+  }
+}
+@keyframes claude-thread-spin {
+  from {
+    transform: translate(-50%, -50%) rotate(-24deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(336deg);
+  }
+}
+@keyframes claude-ray-breathe {
+  0%,
+  100% {
+    opacity: 0.18;
+    transform-origin: left center;
+  }
+  50% {
+    opacity: 0.72;
+    transform-origin: left center;
+  }
+}
+@keyframes claude-mark-breathe {
+  0%,
+  100% {
+    filter: drop-shadow(0 10px 12px #a95c442b);
+  }
+  50% {
+    filter: drop-shadow(0 15px 18px #a95c4450);
+  }
+}
+@keyframes claude-node-pulse {
+  0%,
+  100% {
+    transform: scale(0.7);
+    opacity: 0.4;
+  }
+  50% {
+    transform: scale(1.25);
+    opacity: 1;
+  }
+}
+@keyframes claude-cursor-drift {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0);
+  }
+  50% {
+    transform: translate(8px, -8px) rotate(18deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .catalog-claude-art::before,
+  .catalog-claude-art::after,
+  .claude-paper,
+  .claude-field,
+  .claude-thread,
+  .claude-ray,
+  .claude-mark,
+  .claude-node,
+  .claude-cursor {
+    animation: none;
+  }
+}
+
+.catalog-special-art {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: inherit;
+}

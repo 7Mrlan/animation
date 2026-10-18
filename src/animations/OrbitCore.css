@@ -1,0 +1,131 @@
+/* 从原首页样式筛选，保留关键帧与层叠顺序。 */
+.store-product-art::before,
+.store-product-art::after {
+  content: '';
+  position: absolute;
+  border: 1px solid currentColor;
+  opacity: 0.18;
+  border-radius: 50%;
+  transform: rotate(-18deg);
+}
+.store-product-art::before {
+  width: 185px;
+  height: 92px;
+  left: calc(50% - 92px);
+  top: 39px;
+  animation: catalog-orbit 6s ease-in-out infinite;
+}
+.store-product-art::after {
+  width: 132px;
+  height: 68px;
+  left: calc(50% - 66px);
+  top: 56px;
+  transform: rotate(42deg);
+  opacity: 0.15;
+  animation: catalog-orbit 8s ease-in-out infinite reverse;
+}
+.store-art-orbit {
+  position: absolute;
+  display: block;
+  border-radius: 50%;
+  background: color-mix(in srgb, currentColor 14%, transparent);
+}
+.store-art-orbit.orbit-one {
+  width: 18px;
+  height: 18px;
+  top: 36px;
+  left: 23%;
+  animation: catalog-float 4s ease-in-out infinite;
+}
+.store-art-orbit.orbit-two {
+  width: 9px;
+  height: 9px;
+  top: 118px;
+  right: 23%;
+  background: currentColor;
+  opacity: 0.24;
+  animation: catalog-float 5.4s ease-in-out infinite reverse;
+}
+.store-art-core {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  top: 50%;
+  display: grid;
+  place-items: center;
+  width: 78px;
+  height: 78px;
+  transform: translate(-50%, -50%) rotate(-6deg);
+  border: 1px solid color-mix(in srgb, currentColor 26%, transparent);
+  border-radius: 22px;
+  background: color-mix(in srgb, var(--catalog-bg) 72%, white);
+  box-shadow:
+    0 16px 30px color-mix(in srgb, currentColor 15%, transparent),
+    inset 0 1px 0 #ffffffb8;
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -1px;
+  animation: catalog-core-breathe 4.5s ease-in-out infinite;
+}
+.store-art-label {
+  position: absolute;
+  left: 15px;
+  bottom: 12px;
+  font-size: 10px;
+  letter-spacing: 2px;
+  opacity: 0.55;
+}
+.store-art-caption {
+  position: absolute;
+  right: 13px;
+  top: 13px;
+  writing-mode: vertical-rl;
+  font-size: 8px;
+  letter-spacing: 1.6px;
+  opacity: 0.48;
+}
+@keyframes catalog-orbit {
+  0%,
+  100% {
+    transform: rotate(-18deg) translateY(0);
+  }
+  50% {
+    transform: rotate(-10deg) translateY(-5px);
+  }
+}
+@keyframes catalog-float {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-12px) scale(1.12);
+  }
+}
+@keyframes catalog-core-breathe {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) rotate(-6deg) scale(1);
+  }
+  50% {
+    transform: translate(-50%, -53%) rotate(-2deg) scale(1.04);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .store-product-art::before,
+  .store-product-art::after,
+  .store-art-orbit,
+  .store-art-core {
+    animation: none;
+  }
+}
+
+.store-product-art {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--catalog-bg);
+  color: hsl(var(--catalog-hue) 36% 30%);
+  border-radius: inherit;
+}

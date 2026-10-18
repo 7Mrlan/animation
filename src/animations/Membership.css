@@ -1,0 +1,196 @@
+/* 从原首页样式筛选，保留关键帧与层叠顺序。 */
+.membership-scene {
+  position: relative;
+  height: 185px;
+  flex: 0 0 185px;
+  margin: 6px -8px 0;
+  border-radius: 18px;
+  overflow: hidden;
+  isolation: isolate;
+}
+.scene-gemini {
+  background: radial-gradient(ellipse at 45% 55%, #e2e3ff 0%, #f0effe 40%, #f7f7fc 75%);
+}
+.scene-duolingo {
+  background: radial-gradient(ellipse at 50% 70%, #e5f5c9 0%, #f4faea 52%, #f8fbf3 80%);
+}
+.membership-visual {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  /* 静态首帧也必须可见；循环动画由内部元素承担。 */
+}
+.duo-art {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.duo-animation {
+  position: absolute;
+  width: 230px;
+  height: 197px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.duo-animation > .duo-art,
+.duo-animation-player {
+  position: absolute;
+  inset: 0;
+}
+.duo-animation-player {
+  opacity: 0;
+}
+.duo-animation[data-ready='true'] > .duo-art {
+  visibility: hidden;
+}
+.duo-animation[data-ready='true'] > .duo-animation-player {
+  opacity: 1;
+}
+.duo-word {
+  position: absolute;
+  padding: 8px 13px;
+  border-radius: 13px 13px 3px 13px;
+  font-size: 13px;
+  font-weight: 650;
+  color: #4c7932;
+  background: #fff;
+  box-shadow: 0 4px 15px #3e671008;
+  animation: word-float 5.8s ease-in-out infinite;
+}
+.word-hello {
+  top: 33px;
+  left: 18px;
+  transform: rotate(-9deg);
+}
+.word-bonjour {
+  top: 54px;
+  right: 16px;
+  transform: rotate(9deg);
+  animation-delay: -2.1s;
+  font-size: 11px;
+}
+.scene-gemini .membership-duration {
+  color: #756695;
+}
+.gemini-star {
+  width: 105px;
+  height: 105px;
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  transform: translate(-50%, -50%);
+  animation: gemini-float 7s ease-in-out infinite;
+  filter: drop-shadow(0 12px 24px #7776d732);
+}
+.gemini-art {
+  width: 100%;
+  height: 100%;
+}
+.gemini-orbit {
+  position: absolute;
+  width: 190px;
+  height: 96px;
+  border: 1px solid #b2a9e93d;
+  border-radius: 50%;
+  left: 50%;
+  top: 46%;
+  transform: translate(-50%, -50%) rotate(-30deg);
+  animation: gemini-orbit 18s linear infinite;
+}
+.orbit-outer {
+  width: 240px;
+  height: 146px;
+  animation-direction: reverse;
+  opacity: 0.6;
+}
+.gemini-orbit::after {
+  content: '';
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #ab9ae0;
+  left: 19%;
+  top: 8%;
+  box-shadow: 0 0 14px #fff;
+}
+.gemini-spark {
+  position: absolute;
+  color: #9181d4;
+  font-size: 22px;
+  animation: gemini-twinkle 4s ease-in-out infinite;
+}
+.spark-one {
+  left: 19%;
+  bottom: 25%;
+}
+.spark-two {
+  right: 23%;
+  top: 20%;
+  font-size: 15px;
+  animation-delay: -2s;
+}
+.membership-scene[data-paused='true'] * {
+  animation-play-state: paused !important;
+}
+@keyframes word-float {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -7px;
+  }
+}
+@keyframes gemini-float {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) rotate(-6deg) scale(0.97);
+  }
+  50% {
+    transform: translate(-50%, -57%) rotate(6deg) scale(1.05);
+  }
+}
+@keyframes gemini-orbit {
+  to {
+    transform: translate(-50%, -50%) rotate(330deg);
+  }
+}
+@keyframes gemini-twinkle {
+  0%,
+  100% {
+    opacity: 0.35;
+    scale: 0.7;
+  }
+  50% {
+    opacity: 1;
+    scale: 1.1;
+  }
+}
+@media (max-width: 600px) {
+  .duo-word {
+    font-size: 12px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .membership-scene * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .duo-animation[data-ready='true'] > .duo-art {
+    visibility: visible;
+  }
+  .duo-animation[data-ready='true'] > .duo-animation-player {
+    opacity: 0;
+  }
+}
+
+.membership-scene {
+  height: 100%;
+  margin: 0;
+  border-radius: inherit;
+}
