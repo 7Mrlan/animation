@@ -53,6 +53,8 @@ const sceneStyle = {
 
 增加 `hue` 与 `background` 两个可选参数，保留当前默认值。让同一页出现蓝色与暖色两个实例，观察圆点、方块边框和阴影是否随各自的父容器变化。
 
+从空目录生成同款效果，可复制[独立生成提示词](../prompts/08-orbit-core.md)。下面的提示词用于本项目内的修改练习。
+
 ```text
 请阅读 src/animations/OrbitCore.tsx 和 OrbitCore.css。
 增加可选的 hue 与 background 参数，默认值保持 200 和 #e9f0f5。

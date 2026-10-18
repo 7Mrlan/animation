@@ -62,6 +62,8 @@ flowchart TD
 
 然后验证慢速加载、请求失败、切换标签页和组件快速卸载。失败时应该仍有海报，重新挂载后不应出现两个 SVG 实例。
 
+从空目录生成同款效果，可复制[独立生成提示词](../prompts/05-duo-lottie.md)。下面的提示词用于本项目内的修改练习。
+
 ```text
 请把 src/animations/DuoPlayer.tsx 整理成可传入 animationPath 和 posterPath 的本地 Lottie 播放器。
 保留现有默认素材、light SVG 按需加载和 autoplay false 的流程。

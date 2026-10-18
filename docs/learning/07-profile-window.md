@@ -50,6 +50,8 @@ CSS 还写了一条悬停规则，让 `.account-window` 抬高、旋转并放大
 
 为窗口增加一个外层，把居中定位和悬停抬升安排清楚，再让内层承担循环浮动。检查 `left`、`top` 与百分比位移的参考对象有没有改变。只加一层 div，却照搬原来的居中规则，可能让窗口偏离中心。
 
+从空目录生成同款效果，可复制[独立生成提示词](../prompts/07-profile-window.md)。下面的提示词用于本项目内的修改练习。
+
 ```text
 请检查 src/animations/ProfileWindow.tsx 和 ProfileWindow.css 中的窗口 hover 与浮动关键帧。
 让悬停抬升和原有 5.5s 浮动稳定共存，优先用父子元素分担 transform。

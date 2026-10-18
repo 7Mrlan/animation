@@ -44,6 +44,8 @@ SVG 使用 `viewBox="0 0 160 160"`。路径沿四个方向向外延伸，中间�
 
 如果两张 Gemini 卡片同时展示，检查各自的 SVG 渐变仍有效。最后打开系统减少动态效果，确认星形和轨道保留完整静态外观。
 
+从空目录生成同款效果，可复制[独立生成提示词](../prompts/03-gemini-orbit.md)。下面的提示词用于本项目内的修改练习。
+
 ```text
 请阅读 src/animations/Membership.tsx 与 Membership.css 的 Gemini 部分。
 将两层轨道的完整旋转周期从 18s 改成 24s，保留外圈反向。

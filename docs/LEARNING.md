@@ -7,7 +7,7 @@
 - 刚开始学习，先读[运行项目与基础概念](learning/00-foundations.md)，再做[信封动画](learning/09-floating-mail.md)。
 - 想了解某张卡片，打开[章节目录](learning/README.md)，编号与页面卡片一致。
 - 准备复制组件，先看[播放控制与工程检查](learning/10-playback-and-quality.md)。
-- 需要把想法交给 AI，查[动画术语](learning/11-motion-vocabulary.md)，再使用[提示词模板](learning/12-ai-coding-prompts.md)。
+- 需要把想法交给 AI，查[动画术语](learning/11-motion-vocabulary.md)，再选一份[动画生成或产品创意提示词](prompts/README.md)，从空目录创建已有款式或新的产品动画。
 
 ## 开始练习
 

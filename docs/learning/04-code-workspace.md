@@ -76,6 +76,8 @@ transform: translate(calc(-50% + var(--code-shift-x)), calc(-50% + var(--code-sh
 
 增加 `maxShift`，默认 8px。将坐标范围 -50 至 50 归一化后乘以它，避免让调用者接触 0.16 这个换算系数。试用 4px 和 8px 两种幅度，确认只影响终端。
 
+从空目录生成同款效果，可复制[独立生成提示词](../prompts/04-code-workspace.md)。下面的提示词用于本项目内的修改练习。
+
 ```text
 请在 src/animations/CodeWorkspace.tsx 增加可选参数 maxShift，默认值为 8，单位为 px。
 先阅读现有指针归一化和 RAF 合帧代码，再将终端位移改为使用此参数。

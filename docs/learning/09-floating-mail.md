@@ -61,6 +61,8 @@
 
 实现时保留信封的 -6 度和标签的 5 度基础角度。幅度为 0 只关闭变化量，不应把整张信封强制摆正。
 
+从空目录生成同款效果，可复制[独立生成提示词](../prompts/09-floating-mail.md)。下面的提示词用于本项目内的修改练习。
+
 ```text
 请阅读 src/animations/FloatingMail.tsx 和 FloatingMail.css。
 增加 amplitude 参数，默认 1，用 CSS 变量控制位移和旋转变化量。

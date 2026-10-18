@@ -59,6 +59,8 @@ top: calc(50% + (var(--claude-y) - 50%) * 0.12);
 
 不要一次同时改颜色、周期和位移，否则很难解释改善来自哪里。复制到别的项目时，还要保留动画容器的定位和尺寸，遮罩路径也要能正确解析。
 
+从空目录生成同款效果，可复制[独立生成提示词](../prompts/02-claude-field.md)。下面的提示词用于本项目内的修改练习。
+
 ```text
 请阅读 src/animations/ClaudeField.tsx 和 ClaudeField.css。
 只降低中央 Claude 标志的指针视差，将 x、y 跟随系数从 0.12 改成 0.08。

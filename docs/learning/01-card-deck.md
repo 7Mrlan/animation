@@ -75,6 +75,8 @@ a.map((value, i) => value + (b[i] - value) * t)
 
 运行 `npm test`。现有测试以 10ms 间隔采样检查文字标记与层级，还检查循环首尾位置和几种宽度的展开几何。它们没有覆盖所有浏览器渲染与输入行为。再用鼠标、键盘和触摸分别展开一次，确认交互仍能收回。
 
+从空目录生成同款效果，可复制[独立生成提示词](../prompts/01-card-deck.md)。下面的提示词用于本项目内的修改练习。
+
 ```text
 请阅读 src/animations/CardDeck.tsx、CardDeck.css 和 src/lib/subscription-motion.ts。
 把叠放后的 hold 时长改为 4200ms，prepare、extract、lower、return、settle、hide 的持续时间保持现值。

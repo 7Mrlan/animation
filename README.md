@@ -63,7 +63,7 @@ npm run format     # 格式化代码和文档
 - [从基础开始](docs/learning/00-foundations.md)
 - [按卡片查找章节](docs/learning/README.md)
 - [动画术语与需求翻译](docs/learning/11-motion-vocabulary.md)
-- [AI coding 提示词库](docs/learning/12-ai-coding-prompts.md)
+- [动画生成与产品创意提示词](docs/prompts/README.md)，含九份动画规格和四份新产品创意模板，可直接交给没有项目上下文的 AI
 
 原文件对应关系见 [抽离记录](docs/EXTRACTION.md)，第三方图形出处见 [素材说明](docs/ATTRIBUTION.md)。
 
