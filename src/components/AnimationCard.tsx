@@ -1,7 +1,33 @@
-import { useState, type CSSProperties } from 'react'
+import { Component, Suspense, useState, type CSSProperties, type ReactNode } from 'react'
 import type { Study } from '../catalog'
 import { useMotionActivity } from '../hooks/useMotionActivity'
 import { Icon } from './Icon'
+
+function ScenePlaceholder({ label = 'SCENE / STANDBY' }: { label?: string }) {
+  return (
+    <div className="scene-placeholder" aria-hidden="true">
+      <span className="scene-placeholder-ring" />
+      <span className="scene-placeholder-label">{label}</span>
+    </div>
+  )
+}
+
+/** 单个分块加载失败时只影响这张卡片，不让整页白屏；刷新页面可重新请求。 */
+class SceneBoundary extends Component<{ children: ReactNode }, { failed: boolean }> {
+  state = { failed: false }
+
+  static getDerivedStateFromError() {
+    return { failed: true }
+  }
+
+  render() {
+    return this.state.failed ? (
+      <ScenePlaceholder label="SCENE / UNAVAILABLE" />
+    ) : (
+      this.props.children
+    )
+  }
+}
 
 export function AnimationCard({
   study,
@@ -16,24 +42,40 @@ export function AnimationCard({
 }) {
   const [localPaused, setLocalPaused] = useState(false)
   const [revision, setRevision] = useState(0)
-  const { ref, active } = useMotionActivity(paused || localPaused, reduced)
+  const { ref, stageRef, mounted, revealed, active, reveal } = useMotionActivity(
+    paused || localPaused,
+    reduced,
+  )
   const stopped = paused || localPaused || reduced
   const { Scene } = study
   return (
     <article
+      ref={ref}
       id={study.id}
       className="animation-card"
       style={{ '--scene-tint': study.tint } as CSSProperties}
+      data-revealed={revealed}
       aria-labelledby={`${study.id}-title`}
+      onFocusCapture={reveal}
+      onPointerEnter={reveal}
     >
       <div
-        ref={ref}
+        ref={stageRef}
         className={`stage stage-${study.id}`}
         data-paused={!active}
         data-reduced={reduced}
+        data-mounted={mounted}
       >
         <div className="scene-root" key={revision}>
-          <Scene active={active} reduced={reduced} />
+          {mounted ? (
+            <SceneBoundary>
+              <Suspense fallback={<ScenePlaceholder />}>
+                <Scene active={active} reduced={reduced} />
+              </Suspense>
+            </SceneBoundary>
+          ) : (
+            <ScenePlaceholder />
+          )}
         </div>
         <div className="stage-meta">
           <span className="study-number">NO. {study.number}</span>

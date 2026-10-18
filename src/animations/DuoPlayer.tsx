@@ -1,6 +1,22 @@
 import { useEffect, useRef, useState } from 'react'
 import type { AnimationItem } from 'lottie-web'
 
+// 窗口化会让 Duo 场景反复卸载/挂载；JSON 只取一次，失败时清空以便重试。
+let duoAnimationData: Promise<unknown> | null = null
+
+function loadDuoAnimationData() {
+  duoAnimationData ??= fetch(`${import.meta.env.BASE_URL}brands/duolingo-duo-home.json`)
+    .then((response) => {
+      if (!response.ok) throw new Error('Duo animation unavailable')
+      return response.json() as Promise<unknown>
+    })
+    .catch((error: unknown) => {
+      duoAnimationData = null
+      throw error
+    })
+  return duoAnimationData
+}
+
 export function DuoPlayer({ visible }: { visible: boolean }) {
   const container = useRef<HTMLDivElement>(null)
   const visibility = useRef(visible)
@@ -14,7 +30,6 @@ export function DuoPlayer({ visible }: { visible: boolean }) {
 
   useEffect(() => {
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
-    const controller = new AbortController()
     let animation: AnimationItem | undefined
     let loading = false
     let disposed = false
@@ -31,14 +46,10 @@ export function DuoPlayer({ visible }: { visible: boolean }) {
     async function load() {
       loading = true
       try {
-        const [player, response] = await Promise.all([
+        const [player, animationData] = await Promise.all([
           import('lottie-web/build/player/lottie_light'),
-          fetch(`${import.meta.env.BASE_URL}brands/duolingo-duo-home.json`, {
-            signal: controller.signal,
-          }),
+          loadDuoAnimationData(),
         ])
-        if (!response.ok) throw new Error('Duo animation unavailable')
-        const animationData = await response.json()
         if (disposed || !container.current) return
         animation = player.default.loadAnimation({
           container: container.current,
@@ -68,7 +79,6 @@ export function DuoPlayer({ visible }: { visible: boolean }) {
     sync()
     return () => {
       disposed = true
-      controller.abort()
       synchronize.current = () => {}
       reducedMotion.removeEventListener('change', sync)
       document.removeEventListener('visibilitychange', sync)

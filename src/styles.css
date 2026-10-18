@@ -295,6 +295,34 @@ h1 > span:not(.title-star) {
     0 5px 12px -8px #23332a15,
     0 16px 32px -24px #23332a24,
     inset 0 0 0 1px #dce4de38;
+  /* 滚动显现只动 translate/scale/opacity，不参与布局，也不会引发重排。 */
+  opacity: 0;
+  translate: 0 26px;
+  scale: 0.985;
+  transition:
+    opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms),
+    translate 0.75s cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms),
+    scale 0.75s cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms),
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.35s;
+}
+.animation-card[data-revealed='true'] {
+  opacity: 1;
+  translate: 0 0;
+  scale: 1;
+}
+/* 键盘 Tab 到视口外的卡片时，不等观察器回调也先显示。 */
+.animation-card:focus-within {
+  opacity: 1;
+  translate: 0 0;
+  scale: 1;
+}
+/* 深链接目标先回到最终位置，避免 scrollIntoView 按未显现的 26px 偏移对齐。
+   只保留悬停过渡，显现相关属性直接落到终态。 */
+.animation-card:target {
+  opacity: 1;
+  translate: 0 0;
+  scale: 1;
   transition:
     transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
     box-shadow 0.35s;
@@ -305,6 +333,26 @@ h1 > span:not(.title-star) {
     0 1px 2px #23332a08,
     0 12px 24px -16px #23332a25,
     0 24px 44px -24px #23332a28;
+}
+.gallery .animation-card:nth-child(3n + 2) {
+  --reveal-delay: 65ms;
+}
+.gallery .animation-card:nth-child(3n + 3) {
+  --reveal-delay: 130ms;
+}
+@media (max-width: 1000px) {
+  .gallery .animation-card:nth-child(3n + 2),
+  .gallery .animation-card:nth-child(3n + 3) {
+    --reveal-delay: 0ms;
+  }
+  .gallery .animation-card:nth-child(2n) {
+    --reveal-delay: 65ms;
+  }
+}
+@media (max-width: 600px) {
+  .gallery .animation-card:nth-child(2n) {
+    --reveal-delay: 0ms;
+  }
 }
 .stage {
   position: relative;
@@ -330,6 +378,32 @@ h1 > span:not(.title-star) {
   position: absolute;
   inset: 0;
   border-radius: inherit;
+}
+.scene-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: #71817766;
+  pointer-events: none;
+}
+.scene-placeholder-ring {
+  width: 36px;
+  height: 36px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  box-shadow:
+    inset 0 0 0 8px #ffffff2e,
+    0 0 0 7px #ffffff1f;
+}
+.scene-placeholder-label {
+  font:
+    8px ui-monospace,
+    monospace;
+  letter-spacing: 1.6px;
 }
 .stage-deck {
   background: radial-gradient(ellipse at 50% 50%, #e9f2ed, #f4f7f3);
@@ -505,13 +579,30 @@ h1 > span:not(.title-star) {
 .site-footer a {
   font-family: inherit;
 }
+/* 页面下方的区块也跟随滚动显现，与画廊保持同一节奏。
+   这里只用 opacity/scale：正向 translate 会把文档的滚动溢出撑大，
+   显现结束时 scrollHeight 收缩，底部会出现一次跳动。 */
+.learning-note,
+.site-footer {
+  opacity: 0;
+  scale: 0.985;
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    scale 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.learning-note[data-revealed='true'],
+.site-footer[data-revealed='true'] {
+  opacity: 1;
+  scale: 1;
+}
 /* 同时覆盖元素与伪元素；页面切到后台时 Hook 也会暂停 JS / Lottie。 */
 .stage[data-paused='true'] .scene-root *,
 .stage[data-paused='true'] .scene-root *::before,
 .stage[data-paused='true'] .scene-root *::after {
   animation-play-state: paused !important;
 }
-.stage[data-paused='true'] .scene-root {
+/* 减少动态效果模式仍保留指针/键盘的静态交互（如拖鲸、展开卡片）。 */
+.stage[data-paused='true']:not([data-reduced='true']) .scene-root {
   pointer-events: none;
 }
 .stage[data-reduced='true'] .scene-root *,
@@ -801,9 +892,19 @@ h1 > span:not(.title-star) {
     scroll-behavior: auto !important;
   }
   .animation-card,
+  .animation-card:target,
+  .learning-note,
+  .site-footer,
   .source-button svg,
   .stage-tools {
     transition: none;
+  }
+  .animation-card,
+  .learning-note,
+  .site-footer {
+    opacity: 1;
+    translate: none;
+    scale: 1;
   }
   .animation-card:hover {
     transform: none;

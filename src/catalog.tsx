@@ -1,13 +1,36 @@
-import { CardDeck } from './animations/CardDeck'
-import { ClaudeField } from './animations/ClaudeField'
-import { CodeWorkspace } from './animations/CodeWorkspace'
-import { DuoScene, GeminiOrbit } from './animations/Membership'
-import { ProfileWindow } from './animations/ProfileWindow'
-import { TelegramSignal } from './animations/TelegramSignal'
-import { OrbitCore } from './animations/OrbitCore'
-import { FloatingMail } from './animations/FloatingMail'
-import { DeepSeekDive } from './animations/DeepSeekDive'
-import type { ComponentType } from 'react'
+import { lazy, type ComponentType } from 'react'
+
+// 每个场景单独分块：卡片进入预加载窗口时才请求 JS 与对应 CSS。
+const CardDeck = lazy(() =>
+  import('./animations/CardDeck').then((module) => ({ default: module.CardDeck })),
+)
+const ClaudeField = lazy(() =>
+  import('./animations/ClaudeField').then((module) => ({ default: module.ClaudeField })),
+)
+const CodeWorkspace = lazy(() =>
+  import('./animations/CodeWorkspace').then((module) => ({ default: module.CodeWorkspace })),
+)
+const GeminiOrbit = lazy(() =>
+  import('./animations/Membership').then((module) => ({ default: module.GeminiOrbit })),
+)
+const DuoScene = lazy(() =>
+  import('./animations/Membership').then((module) => ({ default: module.DuoScene })),
+)
+const ProfileWindow = lazy(() =>
+  import('./animations/ProfileWindow').then((module) => ({ default: module.ProfileWindow })),
+)
+const TelegramSignal = lazy(() =>
+  import('./animations/TelegramSignal').then((module) => ({ default: module.TelegramSignal })),
+)
+const OrbitCore = lazy(() =>
+  import('./animations/OrbitCore').then((module) => ({ default: module.OrbitCore })),
+)
+const FloatingMail = lazy(() =>
+  import('./animations/FloatingMail').then((module) => ({ default: module.FloatingMail })),
+)
+const DeepSeekDive = lazy(() =>
+  import('./animations/DeepSeekDive').then((module) => ({ default: module.DeepSeekDive })),
+)
 
 export type SceneProps = { active: boolean; reduced: boolean }
 export type Study = {
@@ -84,7 +107,7 @@ export const studies: Study[] = [
     kind: 'Lottie',
     note: '矢量角色，一段轻快的循环',
     lesson:
-      '按需加载 Lottie light SVG 播放器与本地 JSON。离屏或标签页隐藏时暂停；加载失败及减少动态效果模式下显示同源静态海报。',
+      '按需加载 Lottie light SVG 播放器与本地 JSON。离开视口窗口时卸载，回到附近重新挂载；标签页隐藏时暂停。加载失败及减少动态效果模式下显示同源静态海报。',
     tint: '#f1f8e7',
     files: [
       ...files('Membership'),

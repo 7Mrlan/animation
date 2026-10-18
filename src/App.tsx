@@ -3,7 +3,7 @@ import { studies, type Study } from './catalog'
 import { AnimationCard } from './components/AnimationCard'
 import { SourceDialog } from './components/SourceDialog'
 import { Icon } from './components/Icon'
-import { useReducedMotion } from './hooks/useMotionActivity'
+import { useReducedMotion, useReveal } from './hooks/useMotionActivity'
 
 const filters = ['全部作品', '指针交互', 'CSS 循环', '时间轴', 'Lottie'] as const
 export default function App() {
@@ -14,7 +14,17 @@ export default function App() {
   useEffect(() => {
     const study = studies.find((item) => `#${item.id}` === window.location.hash)
     if (!study) return
-    const frame = requestAnimationFrame(() => document.getElementById(study.id)?.scrollIntoView())
+    const frame = requestAnimationFrame(() => {
+      let node = document.getElementById(study.id)
+      if (!node) return
+      // 用布局位置而不是 getBoundingClientRect：卡片可能还在 26px 的显现位移中。
+      let top = 0
+      while (node) {
+        top += node.offsetTop
+        node = node.offsetParent as HTMLElement | null
+      }
+      window.scrollTo(0, top)
+    })
     return () => cancelAnimationFrame(frame)
   }, [])
   const closeSource = () => {
@@ -23,6 +33,8 @@ export default function App() {
     requestAnimationFrame(() => sourceTrigger.current?.focus())
   }
   const reduced = useReducedMotion()
+  const noteReveal = useReveal<HTMLElement>()
+  const footerReveal = useReveal<HTMLElement>()
   const visible = studies.filter((study) => filter === '全部作品' || study.kind === filter)
   return (
     <>
@@ -123,7 +135,7 @@ export default function App() {
             ))}
           </div>
         </section>
-        <aside className="learning-note">
+        <aside ref={noteReveal.ref} className="learning-note" data-revealed={noteReveal.revealed}>
           <span className="note-symbol" aria-hidden="true">
             ✧
           </span>
@@ -137,7 +149,11 @@ export default function App() {
           </a>
         </aside>
       </main>
-      <footer className="site-footer wrap">
+      <footer
+        ref={footerReveal.ref}
+        className="site-footer wrap"
+        data-revealed={footerReveal.revealed}
+      >
         <span>
           轻动 <span className="footer-separator">/</span> ANIMATION STUDIES
         </span>
