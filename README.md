@@ -1,6 +1,6 @@
 # 轻动 · Animation Studies
 
-把细微的互动，收藏成卡片。一个从现有首页抽离出来的动画学习项目：九张独立动画卡片，可暂停、重播、筛选，并直接查看运行中的源码。
+把细微的互动，收藏成卡片。这个项目从现有首页抽离了九个动画，放进可以暂停、重播和筛选的卡片中。查看效果时，也能直接打开对应源码。
 
 **只有动画，没有商品、价格、购买流程、登录或后台接口。**
 
@@ -28,10 +28,10 @@ npm run format     # 格式化代码和文档
 
 ## 为什么是这套框架
 
-- **React + TypeScript**：沿用原动画组件的实现，减少重新翻译动画带来的偏差，并将展示与运动逻辑分开。
-- **Vite**：这个项目是静态演示，无需服务端渲染、路由或后端。构建结果可直接托管。
-- **普通 CSS**：关键帧、变量、伪元素、阴影都可以直接阅读，不依赖样式框架。
-- **Lottie light SVG**：只为 Duo 示例按需加载；其余动画使用 CSS 或 `requestAnimationFrame`。
+- 沿用 **React + TypeScript** 和原动画组件的实现，减少重写带来的偏差，展示与运动逻辑分别维护。
+- 使用 **Vite** 构建静态演示，无需服务端渲染、路由或后端，产物可直接托管。
+- 样式采用 **普通 CSS**，可以直接阅读关键帧、变量和伪元素，不依赖样式框架。
+- Duo 示例按需加载 **Lottie light SVG**，其余动画使用 CSS 或 `requestAnimationFrame`。
 - 运行时只有 React、React DOM 和 Lottie 三个依赖；字体使用系统字体，动画素材本地提供。
 
 ## 动画目录
@@ -52,13 +52,20 @@ npm run format     # 格式化代码和文档
 
 ## 学习顺序
 
-1. 先看 `FloatingMail` / `TelegramSignal`：理解 `@keyframes`、伪元素和错峰延迟。
-2. 看 `GeminiOrbit` / `OrbitCore`：理解多组动画如何叠加，注意每组 `transform` 的作用层级。
-3. 看 `ClaudeField` / `CodeWorkspace` / `ProfileWindow`：理解指针坐标、CSS 变量和 RAF 合帧。
-4. 看 `CardDeck` 和 `subscription-motion.ts`：理解离散阶段、连续插值和层级交接。
-5. 看 `DuoPlayer`：理解异步加载、取消、失败回退和动画实例销毁。
+1. 先看 `FloatingMail` / `TelegramSignal`，理解 `@keyframes`、伪元素和错峰延迟。
+2. 看 `GeminiOrbit` / `OrbitCore`，理解多组动画如何叠加，注意每组 `transform` 的作用层级。
+3. 看 `ClaudeField` / `CodeWorkspace` / `ProfileWindow`，理解指针坐标、CSS 变量和 RAF 合帧。
+4. 看 `CardDeck` 和 `subscription-motion.ts`，理解离散阶段、连续插值和层级交接。
+5. 看 `DuoPlayer`，理解异步加载、取消、失败回退和动画实例销毁。
 
-详见 [学习与复用指南](docs/LEARNING.md)、[抽离对应表](docs/EXTRACTION.md)、[素材来源](docs/ATTRIBUTION.md)。
+完整的 [动画学习手册](docs/learning/README.md) 包含九个动画的逐章讲解，以及基础、播放控制、术语和 AI coding 四个专题。每个动画章节都有参数说明、动手练习和可复制的提示词。
+
+- [从基础开始](docs/learning/00-foundations.md)
+- [按卡片查找章节](docs/learning/README.md)
+- [动画术语与需求翻译](docs/learning/11-motion-vocabulary.md)
+- [AI coding 提示词库](docs/learning/12-ai-coding-prompts.md)
+
+原文件对应关系见 [抽离记录](docs/EXTRACTION.md)，第三方图形出处见 [素材说明](docs/ATTRIBUTION.md)。
 
 ## 结构
 
@@ -78,7 +85,7 @@ public/brands/      原动画所需的本地素材和第三方许可
 
 - 卡片离屏、页面隐藏、打开源码面板时暂停；返回后恢复。
 - 每张卡片和整页均可手动暂停，重播会重建该动画实例。
-- 遵循系统 `prefers-reduced-motion`：展示静态构图、Duo 海报，不开启循环动画。卡片展开可用键盘立即切换。
+- 遵循系统 `prefers-reduced-motion`，展示静态构图、Duo 海报，不开启循环动画。卡片展开可用键盘立即切换。
 - 源码面板使用原生 `<dialog>`，支持 Esc、焦点约束及关闭后焦点返回。
 - 手机可点击层叠卡片展开；所有卡片均提供触摸可用的播放工具。
 
