@@ -12,7 +12,7 @@ export function AnimationCard({
   study: Study
   paused: boolean
   reduced: boolean
-  onSource: () => void
+  onSource: (button: HTMLButtonElement) => void
 }) {
   const [localPaused, setLocalPaused] = useState(false)
   const [revision, setRevision] = useState(0)
@@ -68,7 +68,7 @@ export function AnimationCard({
           <h2 id={`${study.id}-title`}>{study.name}</h2>
           <button
             className="source-button"
-            onClick={onSource}
+            onClick={(event) => onSource(event.currentTarget)}
             aria-label={`查看${study.name}源码`}
             title="查看源码"
           >

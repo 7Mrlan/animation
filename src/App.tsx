@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { studies, type Study } from './catalog'
 import { AnimationCard } from './components/AnimationCard'
 import { SourceDialog } from './components/SourceDialog'
@@ -10,6 +10,12 @@ export default function App() {
   const [filter, setFilter] = useState<string>('全部作品')
   const [paused, setPaused] = useState(false)
   const [selected, setSelected] = useState<Study | null>(null)
+  const sourceTrigger = useRef<HTMLButtonElement | null>(null)
+  const closeSource = () => {
+    setSelected(null)
+    // React 卸载原生 dialog 后显式恢复焦点，兼容严格模式和各浏览器。
+    requestAnimationFrame(() => sourceTrigger.current?.focus())
+  }
   const reduced = useReducedMotion()
   const visible = studies.filter((study) => filter === '全部作品' || study.kind === filter)
   return (
@@ -102,7 +108,10 @@ export default function App() {
                 study={study}
                 paused={paused || selected !== null}
                 reduced={reduced}
-                onSource={() => setSelected(study)}
+                onSource={(button) => {
+                  sourceTrigger.current = button
+                  setSelected(study)
+                }}
               />
             ))}
           </div>
@@ -134,7 +143,7 @@ export default function App() {
           素材来源与说明 ↗
         </a>
       </footer>
-      {selected && <SourceDialog study={selected} onClose={() => setSelected(null)} />}
+      {selected && <SourceDialog study={selected} onClose={closeSource} />}
     </>
   )
 }
