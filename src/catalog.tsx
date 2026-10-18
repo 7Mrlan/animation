@@ -6,6 +6,7 @@ import { ProfileWindow } from './animations/ProfileWindow'
 import { TelegramSignal } from './animations/TelegramSignal'
 import { OrbitCore } from './animations/OrbitCore'
 import { FloatingMail } from './animations/FloatingMail'
+import { DeepSeekDive } from './animations/DeepSeekDive'
 import type { ComponentType } from 'react'
 
 export type SceneProps = { active: boolean; reduced: boolean }
@@ -143,5 +144,23 @@ export const studies: Study[] = [
     tint: '#eef2fa',
     files: files('FloatingMail'),
     Scene: FloatingMail,
+  },
+  {
+    id: 'deepseek',
+    number: '10',
+    name: '潜入答案',
+    english: 'A little deeper, a little clearer',
+    kind: '指针交互',
+    note: '拖入水中看它巡游，双击小鲸，邀它鲸跃',
+    lesson:
+      '本地 DeepSeek SVG 分层摆尾，弹簧水面传播冲击，贝塞尔曲线安排深浅巡游，重力抛物线完成鲸跃。拖拽速度控制浪花强度，暂停保留时钟，静态模式仍支持直接拖动。',
+    tint: '#eff4ff',
+    files: [
+      ...files('DeepSeekDive'),
+      'lib/deepseek-scene.ts',
+      'lib/deepseek-motion.ts',
+      'lib/deepseek-water.ts',
+    ],
+    Scene: DeepSeekDive,
   },
 ]

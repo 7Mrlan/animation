@@ -1,6 +1,6 @@
 # 轻动 · Animation Studies
 
-把细微的互动，收藏成卡片。这个项目从现有首页抽离了九个动画，放进可以暂停、重播和筛选的卡片中。查看效果时，也能直接打开对应源码。
+把细微的互动，收藏成卡片。项目包含从现有首页抽离的九个动画，以及新增的 DeepSeek「潜入答案」，放进可以暂停、重播和筛选的卡片中。查看效果时，也能直接打开对应源码。
 
 **只有动画，没有商品、价格、购买流程、登录或后台接口。**
 
@@ -48,6 +48,8 @@ npm run format     # 格式化代码和文档
 | 08 小小宇宙     | 轨道、悬浮粒子、中心呼吸                 | [OrbitCore.tsx](src/animations/OrbitCore.tsx)                                          |
 | 09 一封轻盈的信 | 伪元素信封与反向浮动标签                 | [FloatingMail.tsx](src/animations/FloatingMail.tsx)                                    |
 
+| 10 潜入答案 | 拖拽小鲸、流动水面、曲线巡游与鲸跃 | [DeepSeekDive.tsx](src/animations/DeepSeekDive.tsx) · [运动模型](src/lib/deepseek-motion.ts) |
+
 每个组件旁边都有对应 CSS。Gemini 与 Duo 共用 `Membership.css`。查看文件面板还会显示动画所需的时间轴、播放器或 Hook，便于一起复制。
 
 ## 学习顺序
@@ -57,13 +59,14 @@ npm run format     # 格式化代码和文档
 3. 看 `ClaudeField` / `CodeWorkspace` / `ProfileWindow`，理解指针坐标、CSS 变量和 RAF 合帧。
 4. 看 `CardDeck` 和 `subscription-motion.ts`，理解离散阶段、连续插值和层级交接。
 5. 看 `DuoPlayer`，理解异步加载、取消、失败回退和动画实例销毁。
+6. 看 `DeepSeekDive`，理解拖拽、水面冲击、曲线巡游和抛物线鲸跃。
 
-完整的 [动画学习手册](docs/learning/README.md) 包含九个动画的逐章讲解，以及基础、播放控制、术语和 AI coding 四个专题。每个动画章节都有参数说明、动手练习和可复制的提示词。
+完整的 [动画学习手册](docs/learning/README.md) 包含十个动画的逐章讲解，以及基础、播放控制、术语和 AI coding 四个专题。每个动画章节都有参数说明、动手练习和可复制的提示词。
 
 - [从基础开始](docs/learning/00-foundations.md)
 - [按卡片查找章节](docs/learning/README.md)
 - [动画术语与需求翻译](docs/learning/11-motion-vocabulary.md)
-- [动画生成与产品创意提示词](docs/prompts/README.md)，含九份动画规格和四份新产品创意模板，可直接交给没有项目上下文的 AI
+- [动画生成与产品创意提示词](docs/prompts/README.md)，含十份动画规格和四份新产品创意模板，可直接交给没有项目上下文的 AI
 
 原文件对应关系见 [抽离记录](docs/EXTRACTION.md)，第三方图形出处见 [素材说明](docs/ATTRIBUTION.md)。
 
@@ -72,10 +75,10 @@ npm run format     # 格式化代码和文档
 ```text
 src/
   animations/       独立动画组件与对应 CSS
-  lib/              卡片运动的纯计算函数
+  lib/              动画控制器与运动、水面计算函数
   hooks/            可见性与系统减少动态效果偏好
   components/       卡片外壳、源码对话框、图标
-  catalog.tsx       九个动画的名称、说明与源码路径
+  catalog.tsx       十个动画的名称、说明与源码路径
   App.tsx           筛选与全局播放状态
   styles.css        新的卡片画廊外观
 public/brands/      原动画所需的本地素材和第三方许可

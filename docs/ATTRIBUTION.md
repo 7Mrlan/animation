@@ -23,6 +23,12 @@
 
 Duolingo 保留其角色、美术和商标权利。本项目未取得或附加这些素材的再许可，不应把它们视作可任意商用的通用图标。
 
+## DeepSeek 小鲸
+
+`public/brands/deepseek-whale.svg` 提取自 [DeepSeek 官方 DeepSeek-LLM 仓库的 images/logo.svg](https://github.com/deepseek-ai/DeepSeek-LLM/blob/main/images/logo.svg)，取得时间 2026-10-18。保留小鲸原始路径与蓝色，去除字标，调整 viewBox 以独立显示。运行时使用本地素材。
+
+新增动画通过互补 clipPath 将图形分为身体和尾部，表现摆尾。巡游、水面和鲸跃代码为本项目新增。DeepSeek 名称和图形归相应权利人所有，此处不额外授予品牌图形使用许可。
+
 ## 品牌说明
 
 Claude、Gemini、Duolingo 等名称和图形归各自权利人所有。此项目用于展示和学习动画实现，不表示官方合作或背书。外部来源链接为原项目保存的出处记录；运行页面仅使用本地素材。

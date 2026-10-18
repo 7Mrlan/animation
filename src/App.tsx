@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { studies, type Study } from './catalog'
 import { AnimationCard } from './components/AnimationCard'
 import { SourceDialog } from './components/SourceDialog'
@@ -11,6 +11,12 @@ export default function App() {
   const [paused, setPaused] = useState(false)
   const [selected, setSelected] = useState<Study | null>(null)
   const sourceTrigger = useRef<HTMLButtonElement | null>(null)
+  useEffect(() => {
+    const study = studies.find((item) => `#${item.id}` === window.location.hash)
+    if (!study) return
+    const frame = requestAnimationFrame(() => document.getElementById(study.id)?.scrollIntoView())
+    return () => cancelAnimationFrame(frame)
+  }, [])
   const closeSource = () => {
     setSelected(null)
     // React 卸载原生 dialog 后显式恢复焦点，兼容严格模式和各浏览器。
@@ -59,13 +65,14 @@ export default function App() {
             <p>
               把细微的互动，收藏成卡片。
               <br />
-              九个独立动画，从观看到拆解，让每一次灵感都有迹可循。
+              {studies.length} 个独立动画，从观看到拆解，让每一次灵感都有迹可循。
             </p>
           </div>
           <div className="edition">
             <span>THE COLLECTION</span>
             <strong>
-              09<span> / studies</span>
+              {String(studies.length).padStart(2, '0')}
+              <span> / studies</span>
             </strong>
             <span>观察 · 交互 · 探索源码</span>
           </div>
@@ -76,7 +83,7 @@ export default function App() {
               {filters.map((item) => (
                 <button key={item} aria-pressed={filter === item} onClick={() => setFilter(item)}>
                   {item}
-                  {item === '全部作品' && <span>09</span>}
+                  {item === '全部作品' && <span>{String(studies.length).padStart(2, '0')}</span>}
                 </button>
               ))}
             </div>

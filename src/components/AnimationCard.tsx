@@ -21,6 +21,7 @@ export function AnimationCard({
   const { Scene } = study
   return (
     <article
+      id={study.id}
       className="animation-card"
       style={{ '--scene-tint': study.tint } as CSSProperties}
       aria-labelledby={`${study.id}-title`}

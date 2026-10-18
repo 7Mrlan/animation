@@ -1,0 +1,152 @@
+.deepseek-dive {
+  --ds-blue: #4d6bfe;
+  --ds-muted: #78859b;
+  --ds-sea: #e0eaff;
+  --ds-sea-deep: #ccddff;
+  --ds-white: #fff;
+  position: relative;
+  height: 100%;
+  color: var(--ds-blue);
+}
+.deepseek-dive .ds-scene {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #fafcff;
+  border-radius: inherit;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.deepseek-dive .ds-art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.deepseek-dive .ds-whale-handle {
+  position: absolute;
+  left: 50%;
+  top: 38.67%;
+  width: 82px;
+  height: 70px;
+  transform: translate(-50%, -50%);
+  background: none;
+  border: 0;
+  border-radius: 30px;
+  padding: 0;
+  cursor: grab;
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.deepseek-dive .ds-whale-handle:active {
+  cursor: grabbing;
+}
+.deepseek-dive .ds-whale-handle:disabled {
+  cursor: default;
+}
+.deepseek-dive .ds-whale-handle:focus-visible {
+  outline: 1px dashed var(--ds-blue);
+  outline-offset: 3px;
+}
+.deepseek-dive .ds-bottom {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  bottom: 14px;
+  left: 88px;
+  right: 15px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+  color: var(--ds-muted);
+  font:
+    8px ui-monospace,
+    monospace;
+  letter-spacing: 1px;
+  pointer-events: none;
+}
+.deepseek-dive .ds-brand {
+  position: absolute;
+  bottom: 14px;
+  right: 18px;
+  color: var(--ds-blue);
+  font:
+    600 13px system-ui,
+    sans-serif;
+  letter-spacing: -0.4px;
+  pointer-events: none;
+}
+.stage-deepseek[data-reduced='true'] .scene-root {
+  pointer-events: auto;
+}
+.deepseek-dive .ds-water-back {
+  fill: var(--ds-sea);
+  opacity: 0.55;
+}
+.deepseek-dive .ds-water-main {
+  fill: var(--ds-sea);
+}
+.deepseek-dive .ds-water-front {
+  fill: var(--ds-sea-deep);
+  opacity: 0.32;
+}
+.deepseek-dive .ds-water-veil {
+  fill: var(--ds-sea);
+  opacity: 0.25;
+}
+.deepseek-dive .ds-flow {
+  fill: none;
+  stroke: var(--ds-white);
+  stroke-width: 1;
+  opacity: 0.55;
+  stroke-linecap: round;
+}
+.deepseek-dive .ds-surface {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 0.9;
+  opacity: 0.33;
+}
+.deepseek-dive .ds-foam {
+  fill: none;
+  stroke: var(--ds-white);
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-dasharray: 21 39 9 67;
+  opacity: 0.9;
+}
+.deepseek-dive .ds-wake {
+  fill: none;
+  stroke: var(--ds-white);
+  stroke-width: 1.2;
+  stroke-linecap: round;
+  opacity: 0.7;
+}
+.deepseek-dive .ds-splash {
+  fill: none;
+  stroke: var(--ds-white);
+  stroke-width: 1.8;
+  stroke-linecap: round;
+}
+.deepseek-dive .ds-drop {
+  fill: currentColor;
+}
+.deepseek-dive .ds-bubble {
+  fill: none;
+  stroke: var(--ds-white);
+  stroke-width: 1;
+}
+.deepseek-dive .ds-accessible {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
