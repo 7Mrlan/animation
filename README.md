@@ -93,7 +93,11 @@ public/brands/      原动画所需的本地素材和第三方许可
 
 `npm run build` 后部署 `dist/`。`base: './'` 让产物支持根目录及 `/animation/` 等子目录；Lottie 和海报路径也遵循同一规则。项目不需要环境变量。
 
-仓库自带 CI 检查，不会自动启用站点发布或修改 GitHub Pages 设置。
+线上演示：[轻动 · Animation Studies](https://7mrlan.github.io/animation/)。
+
+仓库使用 `.github/workflows/check.yml` 自动检查和发布到 GitHub Pages。每次推送到 `main`，先安装依赖并运行 `npm run check`（类型检查、测试和构建），成功后上传 `dist/` 并部署。PR 和其他分支只检查，不发布。也可在 GitHub Actions 的 **Check and deploy Pages** 页面手动运行工作流。
+
+首次启用时，需要在仓库 **Settings → Pages → Build and deployment** 中选择 **GitHub Actions**；后续发布由工作流自动完成。本项目不需要配置部署密钥或环境变量。
 
 ## 来源说明
 
