@@ -176,13 +176,14 @@ export const studies: Study[] = [
     kind: '指针交互',
     note: '拖入水中看它巡游，双击小鲸，邀它鲸跃',
     lesson:
-      '本地 DeepSeek SVG 分层摆尾，弹簧水面传播冲击，贝塞尔曲线安排深浅巡游，重力抛物线完成鲸跃。拖拽速度控制浪花强度，暂停保留时钟，静态模式仍支持直接拖动。',
+      '本地 DeepSeek SVG 等比绘制和分层摆尾，受限加速度安排深浅巡游，浮力与水阻消耗落水动量，再顺势下潜。随机鱼虾群会聚散逃逸，小鲸加速追逐并在实际接触后吞食；涌浪、阵风和局部冲击共同驱动海面。',
     tint: '#eff4ff',
     files: [
       ...files('DeepSeekDive'),
       'lib/deepseek-scene.ts',
       'lib/deepseek-motion.ts',
       'lib/deepseek-water.ts',
+      'lib/deepseek-prey.ts',
     ],
     Scene: DeepSeekDive,
   },

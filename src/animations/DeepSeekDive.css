@@ -1,8 +1,8 @@
 .deepseek-dive {
   --ds-blue: #4d6bfe;
   --ds-muted: #78859b;
-  --ds-sea: #e0eaff;
-  --ds-sea-deep: #ccddff;
+  --ds-sea: #a9d3f4;
+  --ds-sea-deep: #739ce0;
   --ds-white: #fff;
   position: relative;
   height: 100%;
@@ -13,7 +13,7 @@
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background: #fafcff;
+  background: linear-gradient(180deg, #f8fbff 0%, #f0f7ff 48%, #dfedff 100%);
   border-radius: inherit;
   user-select: none;
   -webkit-user-select: none;
@@ -27,8 +27,8 @@
 }
 .deepseek-dive .ds-whale-handle {
   position: absolute;
-  left: 50%;
-  top: 38.67%;
+  left: 0;
+  top: 0;
   width: 82px;
   height: 70px;
   transform: translate(-50%, -50%);
@@ -39,6 +39,7 @@
   cursor: grab;
   touch-action: none;
   -webkit-tap-highlight-color: transparent;
+  will-change: transform;
 }
 .deepseek-dive .ds-whale-handle:active {
   cursor: grabbing;
@@ -52,29 +53,35 @@
 }
 .deepseek-dive .ds-bottom {
   position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-  bottom: 14px;
-  left: 88px;
-  right: 15px;
+  bottom: 38px;
+  left: 18px;
+  right: 18px;
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
   align-items: center;
   gap: 10px;
-  color: var(--ds-muted);
+  color: #284c89;
   font:
     8px ui-monospace,
     monospace;
   letter-spacing: 1px;
   pointer-events: none;
 }
+.deepseek-dive .ds-state {
+  position: absolute;
+  bottom: 17px;
+  left: 18px;
+  font:
+    500 10px system-ui,
+    sans-serif;
+  color: #294f8a;
+  pointer-events: none;
+}
 .deepseek-dive .ds-brand {
   position: absolute;
   bottom: 14px;
   right: 18px;
-  color: var(--ds-blue);
+  color: #244e99;
   font:
     600 13px system-ui,
     sans-serif;
@@ -89,36 +96,44 @@
   opacity: 0.55;
 }
 .deepseek-dive .ds-water-main {
-  fill: var(--ds-sea);
+  opacity: 0.95;
 }
 .deepseek-dive .ds-water-front {
   fill: var(--ds-sea-deep);
-  opacity: 0.32;
+  opacity: 0.12;
 }
 .deepseek-dive .ds-water-veil {
-  fill: var(--ds-sea);
-  opacity: 0.25;
+  opacity: 0.8;
 }
 .deepseek-dive .ds-flow {
   fill: none;
   stroke: var(--ds-white);
   stroke-width: 1;
-  opacity: 0.55;
+  opacity: 0.22;
   stroke-linecap: round;
 }
 .deepseek-dive .ds-surface {
   fill: none;
-  stroke: currentColor;
-  stroke-width: 0.9;
-  opacity: 0.33;
+  stroke: #f1fdff;
+  stroke-width: 1.1;
+  opacity: 0.78;
 }
 .deepseek-dive .ds-foam {
   fill: none;
   stroke: var(--ds-white);
-  stroke-width: 2.4;
+  stroke-width: 1.7;
   stroke-linecap: round;
-  stroke-dasharray: 21 39 9 67;
-  opacity: 0.9;
+}
+.deepseek-dive .ds-footprint-patch {
+  fill: #c6e5ef;
+  fill-opacity: 0.25;
+}
+.deepseek-dive .ds-footprint-glint {
+  fill: none;
+  stroke: #dff5ff;
+  stroke-width: 0.8;
+  opacity: 0.45;
+  stroke-linecap: round;
 }
 .deepseek-dive .ds-wake {
   fill: none;
@@ -141,6 +156,37 @@
   stroke: var(--ds-white);
   stroke-width: 1;
 }
+.deepseek-dive .ds-ripple {
+  fill: none;
+  stroke: #edfaff;
+  stroke-width: 1.35;
+}
+.deepseek-dive .ds-breath {
+  fill: #d0e7f4;
+  stroke: #b8d7ed;
+  stroke-width: 0.5;
+}
+.deepseek-dive .ds-impact-sheet {
+  fill: #bddff6;
+  stroke: #edfaff;
+  stroke-width: 1;
+}
+.deepseek-dive .ds-feed-pulse {
+  fill: none;
+  stroke: #e9f8ff;
+  stroke-width: 1.4;
+  stroke-linecap: round;
+}
+.deepseek-dive .ds-snores {
+  fill: #eefaff;
+  stroke: #376e9e;
+  stroke-width: 0.6;
+  paint-order: stroke;
+  font:
+    600 12px ui-rounded,
+    system-ui,
+    sans-serif;
+}
 .deepseek-dive .ds-accessible {
   position: absolute;
   width: 1px;
@@ -149,4 +195,18 @@
   overflow: hidden;
   clip-path: inset(50%);
   white-space: nowrap;
+}
+@media (max-width: 540px) {
+  .deepseek-dive .ds-bottom,
+  .deepseek-dive .ds-state {
+    left: 102px;
+  }
+  .deepseek-dive .ds-bottom {
+    bottom: 32px;
+    font-size: 7px;
+    letter-spacing: 0.4px;
+  }
+  .deepseek-dive .ds-state {
+    bottom: 15px;
+  }
 }

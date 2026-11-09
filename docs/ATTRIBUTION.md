@@ -27,7 +27,7 @@ Duolingo 保留其角色、美术和商标权利。本项目未取得或附加�
 
 `public/brands/deepseek-whale.svg` 提取自 [DeepSeek 官方 DeepSeek-LLM 仓库的 images/logo.svg](https://github.com/deepseek-ai/DeepSeek-LLM/blob/main/images/logo.svg)，取得时间 2026-10-18。保留小鲸原始路径与蓝色，去除字标，调整 viewBox 以独立显示。运行时使用本地素材。
 
-新增动画通过互补 clipPath 将图形分为身体和尾部，表现摆尾。巡游、水面和鲸跃代码为本项目新增。DeepSeek 名称和图形归相应权利人所有，此处不额外授予品牌图形使用许可。
+`public/brands/deepseek-whale-keyposes.png` 是基于上述小鲸参考图、使用内置 imagegen 生成并按身体重心对齐的七视角素材。`tools/whale-tween/build.py` 在相邻姿态之间离线生成运动补间，输出运行时使用的 `public/brands/deepseek-whale-turn.png`（241 帧）。图集上半部存身体、下半部存互补尾部，运行时按姿态采样并绕各帧尾柄独立摆尾。它们是本项目的风格化衍生素材，不是 DeepSeek 官方发布的转身资源。巡游、水面和鲸跃代码为本项目新增。DeepSeek 名称和图形归相应权利人所有，此处不额外授予品牌图形使用许可。
 
 ## 品牌说明
 
